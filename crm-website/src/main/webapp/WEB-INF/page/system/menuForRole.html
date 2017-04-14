@@ -1,0 +1,107 @@
+<script type="text/javascript">
+
+
+function mycallback(json) {
+
+	$(this)
+    .bjuiajax('ajaxDone', json) 
+    if(json.closeCurrent){// 信息提示		                       
+    	var l = $(".nId").length
+    	var htm = "";
+    	for(var i = 0 ; i< l ; i++){
+    		var id = $(".nId:eq("+i+")").val();
+    		htm += '<input type="hidden" name="oddId" class="oddId" value="'+id+'">'
+    		
+    	}
+    	$("#odd").html(htm)
+    }
+	
+}
+
+function ZtreeCheck(event, treeId, treeNode){
+	event.preventDefault()
+	var treeObj = $.fn.zTree.getZTreeObj(treeId);
+	var nodes = treeObj.getCheckedNodes(true);
+	var htm = "";
+	for(var i=0 ;i<nodes.length;i++){
+		if(nodes[i].pid != '0'){
+			if(nodes[i].tabid == 'form-button'){
+				htm += '<input type="hidden" name="buttonId" class="nId" value="'+nodes[i].mid.substring(1,nodes[i].mid.lenght)+'">'
+			}else{
+				htm += '<input type="hidden" name="menuId" class="nId" value="'+nodes[i].mid.substring(1,nodes[i].mid.lenght)+'">'
+			}
+		}
+	}
+	$("#new").html(htm)
+}
+
+
+
+</script>
+<div class="bjui-pageContent">
+    <div style="padding:20px;">
+        <div class="clearfix">
+            <div style="float:left; width:400px;  overflow:auto;">
+                <ul id="ztree2" class="ztree" data-toggle="ztree" 
+                    data-options="{
+                        expandAll: true,
+                        onCheck: 'ZtreeCheck',
+                        checkEnable: true
+                    }"
+                >
+            <li data-id="1" data-pid="0" data-faicon="rss" data-faicon-close="cab" data-tabid="from-list" data-mid=""  data-mpid=""  data-remark="" data-level="">主列表</li>     
+	       <#if pageDTO.list?? && (pageDTO.list?size>0)>
+	       <#assign p=0 />
+           <#assign i=0 />
+           <#assign t=0 />
+	       <#assign x=0 />
+	       <#assign y=0 />
+	       <#assign z=0 />
+	        <#list pageDTO.list as dto> 
+	          <#assign x= 10+p />
+	         <li href="javascript:;" data-id="${x}" data-pid="1" data-faicon="rss" data-faicon-close="cab" data-tabid="from-menu" data-mid="@${dto.menuId?default('')}"  data-mpid="@${dto.parentMenuId?default('')}"  data-remark="${dto.remark?default('')}" data-level="${dto.menuLevel}">${dto.menuName?default('')}</li>
+	         <#if dto.menuList?? && (dto.menuList?size>0)>
+	          
+	          <#list dto.menuList as menu>	          
+	           <#assign y= x*10+i />
+	          <li href="javascript:;" data-id="${y}" data-pid="${x}" data-tabid="form-menu-list" data-faicon="bell" data-mid="@${menu.menuId}" data-mpid="@${menu.parentMenuId?default('')}"  data-remark="${menu.remark?default('')}" data-level="${menu.menuLevel}">${menu.menuName?default('')}</li>	          
+	           <#if menu.buttonList?? && (menu.buttonList?size>0)>	           
+		       
+	            <#list menu.buttonList as button>
+	                 <#assign z=y*10+t />
+	            	<li href="javascript:;" data-id="${z}" data-pid="${y}"  data-tabid="form-button" data-faicon="info-circle" data-mid="@${button.buttonId}" data-mpid="@${button.menuId}" > ${button.buttonName?default('')}</li>
+	                 <#assign t= t+1 />
+	            </#list>
+	          
+	           </#if>
+	           <#assign i= i+1 />
+	          </#list>
+	         </#if>
+	         <#assign p= p+1 />
+	        </#list>
+	       </#if> 
+          </ul>
+            </div>
+
+    </div>
+</div>
+<form action="${request.contextPath}/smRoleFunc/add" id="j_custom_form" data-toggle="validate" data-alertmsg="false" data-callback="mycallback">
+    <input type="hidden" name="roleId" value="${roleId}">
+    <div id="odd">
+       <#if pageFTO.list??>
+         <#list pageFTO.list as fto>
+           <input type="hidden" name="oddId" class="oddId" value="${fto.funcId?default('')}">
+         </#list>
+       </#if>
+    </div>
+    <div id="new">
+       
+    </div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

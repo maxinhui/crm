@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.user.repository.UscUserMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.user.entity.UscUser">
+     <id column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+     <result column="user_name" jdbcType="VARCHAR" property="userName" />
+     <result column="password" jdbcType="VARCHAR" property="password" />
+     <result column="gender" jdbcType="VARCHAR" property="gender" />
+     <result column="id_card_no" jdbcType="VARCHAR" property="idCardNo" />
+     <result column="data_authority" jdbcType="TINYINT" property="dataAuthority" />
+     <result column="dept_id" jdbcType="BIGINT" property="deptId" />
+     <result column="mobile_no" jdbcType="VARCHAR" property="mobileNo" />
+     <result column="email_no" jdbcType="VARCHAR" property="emailNo" />
+     <result column="birthday" jdbcType="DATE" property="birthday" />
+     <result column="province" jdbcType="BIGINT" property="province" />
+     <result column="city" jdbcType="BIGINT" property="city" />
+     <result column="county" jdbcType="BIGINT" property="county" />
+     <result column="town" jdbcType="BIGINT" property="town" />
+     <result column="address" jdbcType="VARCHAR" property="address" />
+     <result column="user_type" jdbcType="TINYINT" property="userType" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="lock_flag" jdbcType="CHAR" property="lockFlag" />
+     <result column="create_date" jdbcType="DATE" property="createDate" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.user.dto.UscUserDTO">
+     <id column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+     <result column="user_name" jdbcType="VARCHAR" property="userName" />
+     <result column="password" jdbcType="VARCHAR" property="password" />
+     <result column="gender" jdbcType="VARCHAR" property="gender" />
+     <result column="id_card_no" jdbcType="VARCHAR" property="idCardNo" />
+     <result column="data_authority" jdbcType="TINYINT" property="dataAuthority" />
+     <result column="dept_id" jdbcType="BIGINT" property="deptId" />
+     <result column="mobile_no" jdbcType="VARCHAR" property="mobileNo" />
+     <result column="email_no" jdbcType="VARCHAR" property="emailNo" />
+     <result column="birthday" jdbcType="DATE" property="birthday" />
+     <result column="province" jdbcType="BIGINT" property="province" />
+     <result column="city" jdbcType="BIGINT" property="city" />
+     <result column="county" jdbcType="BIGINT" property="county" />
+     <result column="town" jdbcType="BIGINT" property="town" />
+     <result column="address" jdbcType="VARCHAR" property="address" />
+     <result column="user_type" jdbcType="TINYINT" property="userType" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="lock_flag" jdbcType="CHAR" property="lockFlag" />
+     <result column="create_date" jdbcType="DATE" property="createDate" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+   </resultMap>
+  
+
+
+  
+  <sql id="Base_Column_List">
+     user_id,user_no,nick_name,user_name,password,gender,
+     id_card_no,data_authority,dept_id,mobile_no,email_no,birthday,
+     province,city,county,town,address,user_type,
+     remark,valid_flag,lock_flag,create_date,ts
+  </sql>
+  
+  
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from usc_user where 1=1
+      <if test="dto.userId != null">
+      and  user_id = #{dto.userId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.userNo != null">
+      and  user_no = #{dto.userNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.nickName != null">
+      and  nick_name = #{dto.nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.userName != null">
+      and  user_name = #{dto.userName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.password != null">
+      and  password = #{dto.password,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.gender != null">
+      and  gender = #{dto.gender,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.idCardNo != null">
+      and  id_card_no = #{dto.idCardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.dataAuthority != null">
+      and  data_authority = #{dto.dataAuthority,jdbcType=TINYINT}
+      </if>
+      <if test="dto.deptId != null">
+      and  dept_id = #{dto.deptId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.mobileNo != null">
+      and  mobile_no = #{dto.mobileNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.emailNo != null">
+      and  email_no = #{dto.emailNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.birthday != null">
+      and  birthday = #{dto.birthday,jdbcType=DATE}
+      </if>
+      <if test="dto.province != null">
+      and  province = #{dto.province,jdbcType=BIGINT}
+      </if>
+      <if test="dto.city != null">
+      and  city = #{dto.city,jdbcType=BIGINT}
+      </if>
+      <if test="dto.county != null">
+      and  county = #{dto.county,jdbcType=BIGINT}
+      </if>
+      <if test="dto.town != null">
+      and  town = #{dto.town,jdbcType=BIGINT}
+      </if>
+      <if test="dto.address != null">
+      and  address = #{dto.address,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.userType != null">
+      and  user_type = #{dto.userType,jdbcType=TINYINT}
+      </if>
+      <if test="dto.remark != null">
+      and  remark = #{dto.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.lockFlag != null">
+      and  lock_flag = #{dto.lockFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.createDate != null">
+      and  create_date = #{dto.createDate,jdbcType=DATE}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by user_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from usc_user    
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from usc_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.user.entity.UscUser">
+  <selectKey keyProperty="userId" resultType="java.lang.Long"
+			order="BEFORE" statementType="PREPARED">
+			select uuid_short()
+	</selectKey>
+    insert into usc_user (
+	    user_id,user_no,nick_name,user_name,password,gender,
+	    id_card_no,dept_id,mobile_no,email_no,birthday,
+	    province,city,county,town,address,user_type,
+	    remark,create_date
+      )
+    values (
+         #{userId,jdbcType=BIGINT}, #{userNo,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+         #{idCardNo,jdbcType=VARCHAR}, #{deptId,jdbcType=BIGINT}, #{mobileNo,jdbcType=VARCHAR}, #{emailNo,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE},
+         #{province,jdbcType=BIGINT}, #{city,jdbcType=BIGINT}, #{county,jdbcType=BIGINT}, #{town,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER},
+         #{remark,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.user.entity.UscUser">
+    update usc_user
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardNo != null">
+        id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dataAuthority != null">
+        data_authority = #{dataAuthority,jdbcType=TINYINT},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="mobileNo != null">
+        mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="emailNo != null">
+        email_no = #{emailNo,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=BIGINT},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=BIGINT},
+      </if>
+      <if test="county != null">
+        county = #{county,jdbcType=BIGINT},
+      </if>
+      <if test="town != null">
+        town = #{town,jdbcType=BIGINT},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null">
+        valid_flag = #{validFlag,jdbcType=CHAR},
+      </if>
+      <if test="lockFlag != null">
+        lock_flag = #{lockFlag,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where user_id = #{userId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete from usc_user where user_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from usc_user where 1=1
+	      <if test="dto.userId != null">
+	      and  user_id = #{dto.userId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.userNo != null">
+	      and  user_no = #{dto.userNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.nickName != null">
+	      and  nick_name = #{dto.nickName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.userName != null">
+	      and  user_name = #{dto.userName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.password != null">
+	      and  password = #{dto.password,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.gender != null">
+	      and  gender = #{dto.gender,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.idCardNo != null">
+	      and  id_card_no = #{dto.idCardNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.dataAuthority != null">
+	      and  data_authority = #{dto.dataAuthority,jdbcType=TINYINT}
+	      </if>
+	      <if test="dto.deptId != null">
+	      and  dept_id = #{dto.deptId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.mobileNo != null">
+	      and  mobile_no = #{dto.mobileNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.emailNo != null">
+	      and  email_no = #{dto.emailNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.birthday != null">
+	      and  birthday = #{dto.birthday,jdbcType=DATE}
+	      </if>
+	      <if test="dto.province != null">
+	      and  province = #{dto.province,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.city != null">
+	      and  city = #{dto.city,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.county != null">
+	      and  county = #{dto.county,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.town != null">
+	      and  town = #{dto.town,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.address != null">
+	      and  address = #{dto.address,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.userType != null">
+	      and  user_type = #{dto.userType,jdbcType=TINYINT}
+	      </if>
+	      <if test="dto.remark != null">
+	      and  remark = #{dto.remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.lockFlag != null">
+	      and  lock_flag = #{dto.lockFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.createDate != null">
+	      and  create_date = #{dto.createDate,jdbcType=DATE}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+</mapper>

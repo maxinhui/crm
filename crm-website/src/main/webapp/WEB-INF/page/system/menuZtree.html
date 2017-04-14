@@ -1,0 +1,327 @@
+<script type="text/javascript">
+
+//单击事件
+function ZtreeClick(event, treeId, treeNode) {
+    event.preventDefault()
+    var ptree = treeNode.getParentNode();//父节点
+    var $button = $('#ztree-button')
+    var $detail = $('#ztree-detail')
+    if(ptree.tabid == 'form-menu-list'){//button
+    	
+    	
+ 	    if ($button.attr('tid') == treeNode.tId) return
+ 		if (treeNode.name) $('#buttonName').val(treeNode.name)
+ 		if (treeNode.url) {
+ 			$('#buttonUrl').val(treeNode.url)
+ 		} else {
+ 			$('#buttonUrl').val('')
+ 		}
+ 	
+ 		if (treeNode.mid) {
+ 			$('#bid').val(treeNode.mid.substring(1,treeNode.mid.lenght))
+ 		} else {
+ 			$('#bid').val('')
+ 		}
+ 		if (treeNode.mpid) {//父id
+ 			$('#pmid').val(treeNode.mpid.substring(1,treeNode.mpid.lenght))
+ 		} else {
+ 			if(ptree.mid){
+ 				$('#pmid').val(ptree.mid.substring(1,ptree.mid.lenght))
+ 			}else{
+ 				$('#pmid').val(0)
+ 			}			
+ 		}
+ 		
+ 		$button.attr('tid', treeNode.tId)
+ 		$detail.hide()
+ 	    $button.show()
+    }else{//mnue
+	   
+	    if ($detail.attr('tid') == treeNode.tId) return
+		if (treeNode.name) $('#menuName').val(treeNode.name)
+		if (treeNode.url) {
+			$('#pageUrl').val(treeNode.url)
+		} else {
+			$('#pageUrl').val('')
+		}
+		if (treeNode.remark) {
+			$('#remark').val(treeNode.remark)
+		} else {
+			$('#remark').val('')
+		}
+		if (treeNode.mid) {
+			$('#mid').val(treeNode.mid.substring(1,treeNode.mid.lenght))
+		} else {
+			$('#mid').val('')
+		}
+		if (treeNode.mpid) {//父id
+			$('#parentMenuId').val(treeNode.mpid.substring(1,treeNode.mpid.lenght))
+		} else {
+			if(ptree.mid){
+				$('#parentMenuId').val(ptree.mid.substring(1,ptree.mid.lenght))
+				$('#level').val(ptree.level+1)
+				$('#leaf').val('Y')
+			}else{
+				$('#parentMenuId').val(0)
+				$('#level').val(1)
+				$('#leaf').val('N')
+			}			
+		}
+		
+		$detail.attr('tid', treeNode.tId)
+		$button.hide()
+	    $detail.show()
+    }
+}
+//保存属性
+function M_Ts_Menu(type) {
+	var zTree  = $.fn.zTree.getZTreeObj("ztree1")
+
+	if(type == 'menu'){
+			var menuName = $('#menuName').val()
+			var pageUrl = $('#pageUrl').val()
+			var remark  = $('#remark').val()
+			var parentMenuId = $('#parentMenuId').val()
+			var menuId = $('#mid').val()
+			var level = $('#level').val()
+			var isLeaf = $('#leaf').val()
+			if ($.trim(menuName).length == 0) {
+				
+				return;
+			}
+			var upNode = zTree.getSelectedNodes()[0]
+			
+			if (!upNode) {
+				
+		        return
+			}
+			//修改
+			if(menuId !=null && menuId != ''){
+				$.get('${request.contextPath}/smMenu/update',
+					   {menuName : menuName,
+					    pageUrl : pageUrl,
+					    remark :remark,
+					    parentMenuId : parentMenuId,
+					    menuId : menuId
+					   },
+					   function(data){
+						  
+							upNode.name   = menuName
+							upNode.url    = pageUrl
+							upNode.remark  = remark
+							upNode.mpid = parentMenuId
+							upNode.mid = menuId
+							zTree.updateNode(upNode)
+					   }
+					)
+			}else{//添加
+				$.get('${request.contextPath}/smMenu/save',
+						   {menuName : menuName,
+						    pageUrl : pageUrl,
+						    remark :remark,
+						    parentMenuId : parentMenuId,
+						    menuLevel : level,
+						    isLeaf : isLeaf
+						   },
+						   function(data){
+							  
+								upNode.name   = menuName
+								upNode.url    = pageUrl
+								upNode.remark  = remark
+								upNode.mpid = parentMenuId
+								upNode.mid = menuId
+								upNode.level = level
+								zTree.updateNode(upNode)
+						   }
+						)
+			}
+	  }else{//button
+		    var buttonName = $('#buttonName').val()
+			var buttonUrl = $('#buttonUrl').val()
+			var menuId = $('#pmid').val()
+			var buttonId = $('#bid').val()
+			if ($.trim(buttonName).length == 0) {
+				
+				return;
+			}
+			var upNode = zTree.getSelectedNodes()[0]
+			
+			if (!upNode) {
+				
+		        return
+			}
+			//修改
+			if(buttonId !=null && buttonId != ''){
+				$.get('${request.contextPath}/smButton/update',
+					   {buttonName : buttonName,
+					    buttonUrl : buttonUrl,
+					    menuId : menuId,
+					    buttonId : buttonId
+					   },
+					   function(data){
+						  
+							upNode.name   = buttonName
+							upNode.url    = buttonUrl
+							upNode.mpid = menuId
+							upNode.mid = buttonId
+							zTree.updateNode(upNode)
+					   }
+					)
+			}else{//添加
+				$.get('${request.contextPath}/smButton/save',
+						   {buttonName : buttonName,
+						    buttonUrl : buttonUrl,
+						    menuId : menuId
+						   },
+						   function(data){
+							  
+								upNode.name   = buttonName
+								upNode.url    = buttonUrl
+								upNode.mpid = menuId
+								upNode.mid = buttonId
+								zTree.updateNode(upNode)
+						   }
+						)
+			}
+	  }
+}
+
+
+
+//删除前事件
+function M_BeforeRemove(treeId, treeNode) {    
+    return true
+}
+//删除结束事件
+function M_NodeRemove(event, treeId, treeNode) {
+	var id = treeNode.mid.substring(1,treeNode.mid.lenght)
+	var $type = treeNode.tabid
+
+	if($type == 'form-button'){//button 刪除
+	 	$.get('${request.contextPath}/smButton/deleteById',
+		   {id : id},
+		   function(data){
+			   alert(data.success)
+		   }
+	 )
+	}else{ //menu 刪除
+	 	$.get('${request.contextPath}/smMenu/deleteById',
+		   {id : id},
+		   function(data){
+			   alert(data.success)
+		   }
+	 )
+	}
+
+
+}
+
+</script>
+<div class="bjui-pageContent">
+    <div style="padding:20px;">
+        <div class="clearfix">
+            <div style="float:left; width:400px;  overflow:auto;">
+                <ul id="ztree1" class="ztree" data-toggle="ztree" 
+                    data-options="{
+                        
+                        onClick: 'ZtreeClick',
+                        addHoverDom: 'edit',
+                        removeHoverDom: 'edit',
+                        beforeRemove: 'M_BeforeRemove',
+                        onRemove: 'M_NodeRemove',
+                        maxAddLevel : 3
+                    }"
+                >
+            <li data-id="1" data-pid="0" data-faicon="rss" data-faicon-close="cab" data-tabid="from-list" data-mid=""  data-mpid="" data-url="" data-remark="" data-level="">主列表</li>     
+	       <#if pageDTO.list?? && (pageDTO.list?size>0)>
+           <#assign p=0 />
+           <#assign i=0 />
+           <#assign t=0 />
+	       <#assign x=0 />
+	       <#assign y=0 />
+	       <#assign z=0 />
+	        <#list pageDTO.list as dto> 
+             <#assign x= 10+p />
+	         <li data-id="${x}" data-pid="1" data-faicon="rss" data-faicon-close="cab" data-tabid="from-menu" data-mid="@${dto.menuId?default('')}"  data-mpid="@${dto.parentMenuId?default('')}" data-url="${dto.pageUrl?default('')}" data-remark="${dto.remark?default('')}" data-level="${dto.menuLevel}">${dto.menuName?default('')}</li>
+	         
+	         <#if dto.menuList?? && (dto.menuList?size>0)>
+	           
+	          <#list dto.menuList as menu>	          
+	          <#assign y= x*10+i />
+	          <li data-id="${y}" data-pid="${x}" data-tabid="form-menu-list" data-faicon="bell" data-mid="@${menu.menuId}" data-mpid="@${menu.parentMenuId?default('')}" data-url="${menu.pageUrl?default('')}" data-remark="${menu.remark?default('')}" data-level="${menu.menuLevel}">${menu.menuName?default('')}</li>	          
+	           <#if menu.buttonList?? && (menu.buttonList?size>0)>	           
+		       
+	            <#list menu.buttonList as button>
+	                <#assign z=y*10+t />
+	            	<li data-id="${z}" data-pid="${y}"  data-tabid="form-button" data-faicon="info-circle" data-mid="@${button.buttonId}" data-mpid="@${button.menuId}" data-url="${button.buttonUrl?default('')}"> ${button.buttonName?default('')}</li>
+	                <#assign t= t+1 />
+	            </#list>
+	          
+	           </#if>
+	            <#assign i= i+1 />
+	          </#list>
+	         </#if>
+	         
+	         <#assign p= p+1 />
+	         
+	        </#list>
+	       </#if> 
+          </ul>
+            </div>
+            <div id="ztree-detail" style="display:none; margin-left:120px;margin-top:20px; width:300px; height:240px;float:left;">
+               <div class="bs-example" data-content="详细信息">
+                    <div class="form-group">
+                        <label for="menuName" class="control-label x85">菜单名称：</label>
+                        <input type="text" class="form-control validate[required] required"  id="menuName" size="15" placeholder="名称" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pageUrl" class="control-label x85">URL：</label>
+                        <input type="text" class="form-control"  id="pageUrl" size="15" placeholder="Url" />
+                    </div>
+                    <div class="form-group">
+                        <label for="remark" class="control-label x85">备注：</label>
+                        <input type="text" class="form-control"  id="remark" size="15" placeholder="tabid" />
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="parentMenuId"/>
+                        <input type="hidden" id="mid"/>
+                        <input type="hidden" id="level"/>
+                        <input type="hidden" id="leaf"/>
+                       
+                    </div>
+                    <div class="form-group" style="padding-top:8px; border-top:1px #DDD solid;">
+                        <label class="control-label x85"></label>
+                        <button class="btn btn-green" onclick="M_Ts_Menu('menu');">更新菜单</button>
+                    </div>
+                </div>
+              </div>  
+                <div id="ztree-button" style="display:none; margin-left:120px;margin-top:20px; width:300px; height:240px;float:left;">
+                <div class="bs-example" data-content="详细信息">
+                    <div class="form-group">
+                        <label for="menuName" class="control-label x85">菜单名称：</label>
+                        <input type="text" class="form-control validate[required] required"  id="buttonName" size="15" placeholder="名称" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pageUrl" class="control-label x85">URL：</label>
+                        <input type="text" class="form-control"  id="buttonUrl" size="15" placeholder="Url" />
+                    </div>
+                   
+                    <div class="form-group">
+                        <input type="hidden" id="pmid" size="15"/>
+                        <input type="hidden" id="bid" size="15"/>
+                    </div>
+                    <div class="form-group" style="padding-top:8px; border-top:1px #DDD solid;">
+                        <label class="control-label x85"></label>
+                        <button class="btn btn-green" onclick="M_Ts_Menu('button');">更新菜单</button>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+    </ul>
+</div>

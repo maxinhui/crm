@@ -1,0 +1,61 @@
+<script type="text/javascript">
+function pic_upload_success(file, data) {
+    var json = $.parseJSON(data)
+    
+    $(this).bjuiajax('ajaxDone', json)
+    if (json.success) {
+        $('#custom_pic').val(json.module).trigger('validate')
+        $('#custom_span_pic').html('<img src="'+ json.module +'" width="100" />')
+    }
+}
+function do_OK(json, $form) {
+    console.log(json)
+    console.log($form)
+}
+
+function mycallback(json) {
+
+	$(this)
+    .bjuiajax('ajaxDone', json)       // 信息提示		                       
+   
+    if(json.closeCurrent){
+       $(this)
+           .navtab('reloadFlag', json.tabid)
+           .dialog('closeCurrent')	
+    }
+
+}
+</script>
+<div class="bjui-pageContent">
+<form action="${request.contextPath}/smRole/update" id="j_custom_form" data-toggle="validate" data-alertmsg="false" data-callback="mycallback">
+    <input type="hidden" name="custom.id" value="edce142bc2ed4ec6b623aacaf602a4de">
+    <input type="hidden" name="roleId" value="${module.roleId}">
+    <div class="bjui-row col-3">
+     
+        <br>
+
+                <label class="row-label" >角色名称</label>
+         <div class="row-input required">
+            <input type="text" name="roleName" id="roleName" value="${module.roleName?default('')}" data-rule="required">
+         </div>
+         <br>
+                <label class="row-label" >备注说明</label>
+         <div class="row-input required">
+            <input type="text" name="remark" id="remark" value="${module.remark?default('')}" data-rule="required">
+         </div>
+         <br>
+                <label class="row-label" >有效标识(Y-有效 N-作废)</label>
+         <div class="row-input required">
+            <input type="radio" name="validFlag" value="Y" data-toggle="icheck" data-label="Y" <#if module.validFlag == 'Y'>checked</#if>>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="validFlag" value="N" data-toggle="icheck" data-label="N" <#if module.validFlag == 'N'>checked</#if>>
+         </div>
+
+    </div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

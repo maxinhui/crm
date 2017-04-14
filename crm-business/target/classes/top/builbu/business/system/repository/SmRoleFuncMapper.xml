@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.system.repository.SmRoleFuncMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.system.entity.SmRoleFunc">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="role_id" jdbcType="BIGINT" property="roleId" />
+     <result column="func_type" jdbcType="INTEGER" property="funcType" />
+     <result column="func_id" jdbcType="BIGINT" property="funcId" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.system.dto.SmRoleFuncDTO">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="role_id" jdbcType="BIGINT" property="roleId" />
+     <result column="func_type" jdbcType="INTEGER" property="funcType" />
+     <result column="func_id" jdbcType="BIGINT" property="funcId" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+
+  
+  <sql id="Base_Column_List">
+     row_id,role_id,func_type,func_id,valid_flag,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_role_func where 1=1
+      <if test="dto.rowId != null">
+      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.roleId != null">
+      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.funcType != null">
+      and  func_type = #{dto.funcType,jdbcType=INTEGER}
+      </if>
+      <if test="dto.funcId != null">
+      and  func_id = #{dto.funcId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by row_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sm_role_func    
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sm_role_func
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.system.entity.SmRoleFunc">
+    insert into sm_role_func (
+	    row_id,role_id,func_type,func_id,valid_flag,ts
+      )
+    values (
+         #{rowId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{funcType,jdbcType=INTEGER}, #{funcId,jdbcType=BIGINT}, #{validFlag,jdbcType=CHAR}, #{ts,jdbcType=TIMESTAMP},
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.system.entity.SmRoleFunc">
+    update sm_role_func
+    <set>
+      <if test="rowId != null">
+        row_id = #{rowId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="funcType != null">
+        func_type = #{funcType,jdbcType=INTEGER},
+      </if>
+      <if test="funcId != null">
+        func_id = #{funcId,jdbcType=BIGINT},
+      </if>
+      <if test="validFlag != null">
+        valid_flag = #{validFlag,jdbcType=CHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where row_id = #{rowId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete from sm_role_func where row_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from sm_role_func where 1=1
+	      <if test="dto.rowId != null">
+	      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.roleId != null">
+	      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.funcType != null">
+	      and  func_type = #{dto.funcType,jdbcType=INTEGER}
+	      </if>
+	      <if test="dto.funcId != null">
+	      and  func_id = #{dto.funcId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+	
+	<!-- 所有數據 -->
+  <select id="selectByInfo"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_role_func where 1=1
+      <if test="dto.rowId != null">
+      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.roleId != null">
+      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.funcType != null">
+      and  func_type = #{dto.funcType,jdbcType=INTEGER}
+      </if>
+      <if test="dto.funcId != null">
+      and  func_id = #{dto.funcId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by ts desc 
+  </select>
+  
+  <!-- 批量插入 -->
+  <insert id="saveList"  parameterType="java.util.List">  
+
+    insert into sm_role_func (
+	    row_id,role_id,func_type,func_id)
+       values 
+    <foreach collection="list" item="item" index="index"  separator=","  >  
+        (uuid_short(),#{item.roleId},#{item.funcType},#{item.funcId})  
+    </foreach>  
+</insert>
+
+<!--   批量删除       -->
+  <delete id="deleteByRoleAll" parameterType="java.lang.Long">
+      delete from sm_role_func where func_id in
+      <foreach item="id" collection="delids"  open="(" separator="," close=")">
+          #{id}
+      </foreach>
+      and role_id = #{roleId}
+  </delete>
+  
+  <select id="selectByRoleId" >
+  
+  </select>
+</mapper>

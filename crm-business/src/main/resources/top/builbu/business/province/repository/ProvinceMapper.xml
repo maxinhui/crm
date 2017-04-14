@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.province.repository.ProvinceMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.province.entity.Province">
+     <id column="id" jdbcType="INTEGER" property="id" />
+     <result column="provinceid" jdbcType="VARCHAR" property="provinceid" />
+     <result column="province" jdbcType="VARCHAR" property="province" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.province.dto.ProvinceDTO">
+     <id column="id" jdbcType="INTEGER" property="id" />
+     <result column="provinceid" jdbcType="VARCHAR" property="provinceid" />
+     <result column="province" jdbcType="VARCHAR" property="province" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     id,provinceid,province
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from province where 1=1
+      <if test="dto.id != null">
+      and  id = #{dto.id,jdbcType=INTEGER}
+      </if>
+      <if test="dto.provinceid != null">
+      and  provinceid = #{dto.provinceid,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.province != null">
+      and  province = #{dto.province,jdbcType=VARCHAR}
+      </if>
+     order by id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from province    
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from province
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.province.entity.Province">
+    insert into province (
+	    id,provinceid,province
+      )
+    values (
+         #{id,jdbcType=INTEGER}, #{provinceid,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.province.entity.Province">
+    update province
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="provinceid != null">
+        provinceid = #{provinceid,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR}
+      </if>
+    </set>
+  
+    where id = #{id,jdbcType=INTEGER}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Integer">
+      delete from province where id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from province where 1=1
+	      <if test="dto.id != null">
+	      and  id = #{dto.id,jdbcType=INTEGER}
+	      </if>
+	      <if test="dto.provinceid != null">
+	      and  provinceid = #{dto.provinceid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.province != null">
+	      and  province = #{dto.province,jdbcType=VARCHAR}
+	      </if>
+	</select>
+</mapper>

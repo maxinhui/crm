@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.user.repository.UscClerkMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.user.entity.UscClerk">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="clerk_id" jdbcType="BIGINT" property="clerkId" />
+     <result column="belong_store" jdbcType="VARCHAR" property="belongStore" />
+     <result column="entry_date" jdbcType="DATE" property="entryDate" />
+     <result column="is_manager" jdbcType="CHAR" property="isManager" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.user.dto.UscClerkDTO">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="clerk_id" jdbcType="BIGINT" property="clerkId" />
+     <result column="belong_store" jdbcType="VARCHAR" property="belongStore" />
+     <result column="entry_date" jdbcType="DATE" property="entryDate" />
+     <result column="is_manager" jdbcType="CHAR" property="isManager" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     row_id,clerk_id,belong_store,entry_date,is_manager,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from usc_clerk where 1=1
+      <if test="dto.rowId != null">
+      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.clerkId != null">
+      and  clerk_id = #{dto.clerkId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.belongStore != null">
+      and  belong_store = #{dto.belongStore,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.entryDate != null">
+      and  entry_date = #{dto.entryDate,jdbcType=DATE}
+      </if>
+      <if test="dto.isManager != null">
+      and  is_manager = #{dto.isManager,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by row_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from usc_clerk    
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from usc_clerk
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.user.entity.UscClerk">
+    <selectKey keyProperty="rowId" resultType="java.lang.Long"
+			order="BEFORE" statementType="PREPARED">
+			select uuid_short()
+	</selectKey>
+    insert into usc_clerk (
+	    row_id,clerk_id,belong_store,entry_date,is_manager
+      )
+    values (
+         #{rowId,jdbcType=BIGINT}, #{clerkId,jdbcType=BIGINT}, #{belongStore,jdbcType=VARCHAR}, #{entryDate,jdbcType=DATE}, #{isManager,jdbcType=CHAR}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.user.entity.UscClerk">
+    update usc_clerk
+    <set>
+      <if test="rowId != null">
+        row_id = #{rowId,jdbcType=BIGINT},
+      </if>
+      <if test="clerkId != null">
+        clerk_id = #{clerkId,jdbcType=BIGINT},
+      </if>
+      <if test="belongStore != null">
+        belong_store = #{belongStore,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null">
+        entry_date = #{entryDate,jdbcType=DATE},
+      </if>
+      <if test="isManager != null">
+        is_manager = #{isManager,jdbcType=CHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where row_id = #{rowId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete from usc_clerk where row_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from usc_clerk where 1=1
+	      <if test="dto.rowId != null">
+	      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.clerkId != null">
+	      and  clerk_id = #{dto.clerkId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.belongStore != null">
+	      and  belong_store = #{dto.belongStore,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.entryDate != null">
+	      and  entry_date = #{dto.entryDate,jdbcType=DATE}
+	      </if>
+	      <if test="dto.isManager != null">
+	      and  is_manager = #{dto.isManager,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+	
+	<!-- 修改门店也店员的关系 -->  
+  <update id="updateByStore" parameterType="java.lang.String">
+    update usc_clerk uc LEFT JOIN usc_user uu ON uc.clerk_id = uu.user_id
+     set uu.user_type = '2'  
+    where  uc.belong_store = #{belongStore,jdbcType=VARCHAR}
+   
+  </update>
+  
+</mapper>

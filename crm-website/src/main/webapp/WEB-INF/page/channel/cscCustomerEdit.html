@@ -1,0 +1,83 @@
+<script type="text/javascript">
+function pic_upload_success(file, data) {
+    var json = $.parseJSON(data)
+    
+    $(this).bjuiajax('ajaxDone', json)
+    if (json.success) {
+        $('#custom_pic').val(json.module).trigger('validate')
+        $('#custom_span_pic').html('<img src="'+ json.module +'" width="100" />')
+    }
+}
+function do_OK(json, $form) {
+    console.log(json)
+    console.log($form)
+}
+
+function mycallback(json) {
+
+	$(this)
+    .bjuiajax('ajaxDone', json)       // 信息提示		                       
+   
+    if(json.closeCurrent){
+       $(this)
+           .navtab('reloadFlag', json.tabid)
+           .dialog('closeCurrent')	
+    }
+
+}
+</script>
+<div class="bjui-pageContent">
+<form action="${request.contextPath}/cscCustomer/update" id="j_custom_form" data-toggle="validate" data-alertmsg="false" data-callback="mycallback">
+    <input type="hidden" name="custom.id" value="edce142bc2ed4ec6b623aacaf602a4de">
+    <input type="hidden" name="rowId" value="${module.rowId}">
+    <div class="bjui-row col-3">
+     
+        <br>
+                <label class="row-label" >编号</label>
+         <div class="row-input required">
+            <input type="text" name="customerNo" id="customerNo" value="${module.customerNo?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >公司简称</label>
+         <div class="row-input required">
+            <input type="text" name="customerName" id="customerName" value="${module.customerName?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >公司全称</label>
+         <div class="row-input required">
+            <input type="text" name="customerFullName" id="customerFullName" value="${module.customerFullName?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >公司地址</label>
+         <div class="row-input required">
+            <input type="text" name="customerAddress" id="customerAddress" value="${module.customerAddress?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >公司编号</label>
+         <div class="row-input required">
+            <input type="text" name="corpNo" id="corpNo" value="${module.corpNo?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >联系人</label>
+         <div class="row-input required">
+            <input type="text" name="contacts" id="contacts" value="${module.contacts?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >联系电话</label>
+         <div class="row-input required">
+            <input type="text" name="contactNumber" id="contactNumber" value="${module.contactNumber?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >是否POS店铺</label>
+         <div class="row-input required">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="isPosStore" value="Y" data-toggle="icheck" data-label="是" <#if module.isPosStore??&&module.isPosStore == 'Y'>checked</#if>>
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="isPosStore" value="N" data-toggle="icheck" data-label="否" <#if module.isPosStore??&&module.isPosStore == 'N'>checked</#if>>
+         </div>
+                <label class="row-label" >有效标识</label>
+         <div class="row-input">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="validFlag" value="Y" data-toggle="icheck" data-label="有效" <#if module.validFlag == 'Y'>checked</#if>>
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="validFlag" value="N" data-toggle="icheck" data-label="无效" <#if module.validFlag == 'N'>checked</#if>>           
+         </div>
+         <input type="text" name="userId" value="${module.userId?default('')}">
+    </div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

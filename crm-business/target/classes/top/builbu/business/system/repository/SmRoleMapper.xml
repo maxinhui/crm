@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.system.repository.SmRoleMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.system.entity.SmRole">
+     <id column="role_id" jdbcType="BIGINT" property="roleId" />
+     <result column="role_no" jdbcType="VARCHAR" property="roleNo" />
+     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.system.dto.SmRoleDTO">
+     <id column="role_id" jdbcType="BIGINT" property="roleId" />
+     <result column="role_no" jdbcType="VARCHAR" property="roleNo" />
+     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     role_id,role_no,role_name,remark,valid_flag,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_role where 1=1
+      <if test="dto.roleId != null">
+      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.roleNo != null">
+      and  role_no = #{dto.roleNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.roleName != null">
+      and  role_name = #{dto.roleName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.remark != null">
+      and  remark = #{dto.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by role_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sm_role    
+    where role_id = #{roleId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete sr,srf,sur from sm_role sr LEFT JOIN sm_role_func srf ON sr.role_id = srf.role_id LEFT JOIN sm_user_role sur ON sur.role_id = sr.role_id
+    where sr.role_id = #{roleId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.system.entity.SmRole">
+      <selectKey keyProperty="roleId" resultType="java.lang.Long"
+			order="BEFORE" statementType="PREPARED">
+			select uuid_short()
+	</selectKey>
+    insert into sm_role (
+	    role_id,role_no,role_name,remark
+      )
+    values (
+         #{roleId,jdbcType=BIGINT}, #{roleNo,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.system.entity.SmRole">
+    update sm_role
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="roleNo != null">
+        role_no = #{roleNo,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null">
+        valid_flag = #{validFlag,jdbcType=CHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where role_id = #{roleId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete sr,srf,sur from sm_role sr LEFT JOIN sm_role_func srf ON sr.role_id = srf.role_id LEFT JOIN sm_user_role sur ON sur.role_id = sr.role_id
+       where sr.role_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from sm_role where 1=1
+	      <if test="dto.roleId != null">
+	      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.roleNo != null">
+	      and  role_no = #{dto.roleNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.roleName != null">
+	      and  role_name = #{dto.roleName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.remark != null">
+	      and  remark = #{dto.remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+	
+	<!-- 所有数据  -->
+  <select id="selectByInfo"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_role where 1=1
+      <if test="dto.roleId != null">
+      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.roleNo != null">
+      and  role_no = #{dto.roleNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.roleName != null">
+      and  role_name = #{dto.roleName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.remark != null">
+      and  remark = #{dto.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by ts desc 
+  </select>
+  
+<!--   userID 查询 所属权限 -->
+  <select id="slelctByUserId" resultMap="BaseResultMapDTO">
+    select 
+     sr.role_id,sr.role_no,sr.role_name,sr.remark,sr.valid_flag
+     from sm_role sr LEFT JOIN sm_user_role sur ON sr.role_id = sur.role_id where
+      sur.user_id = #{userId,jdbcType=BIGINT} 
+      and  sr.valid_flag = 'Y'
+  </select>
+</mapper>

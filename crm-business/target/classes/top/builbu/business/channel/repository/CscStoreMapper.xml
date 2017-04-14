@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.channel.repository.CscStoreMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.channel.entity.CscStore">
+     <id column="store_id" jdbcType="BIGINT" property="storeId" />
+     <result column="store_no" jdbcType="VARCHAR" property="storeNo" />
+     <result column="store_name" jdbcType="VARCHAR" property="storeName" />
+     <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+     <result column="store_nature" jdbcType="BIGINT" property="storeNature" />
+     <result column="store_status" jdbcType="BIGINT" property="storeStatus" />
+     <result column="store_level" jdbcType="BIGINT" property="storeLevel" />
+     <result column="start_date" jdbcType="DATE" property="startDate" />
+     <result column="business_area" jdbcType="VARCHAR" property="businessArea" />
+     <result column="province" jdbcType="BIGINT" property="province" />
+     <result column="city" jdbcType="BIGINT" property="city" />
+     <result column="county" jdbcType="BIGINT" property="county" />
+     <result column="town" jdbcType="BIGINT" property="town" />
+     <result column="detail_addr" jdbcType="VARCHAR" property="detailAddr" />
+     <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+     <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+     <result column="floor" jdbcType="VARCHAR" property="floor" />
+     <result column="manage_brand" jdbcType="VARCHAR" property="manageBrand" />
+     <result column="plan_staff" jdbcType="INTEGER" property="planStaff" />
+     <result column="fact_staff" jdbcType="INTEGER" property="factStaff" />
+     <result column="store_manager_name" jdbcType="VARCHAR" property="storeManagerName" />
+     <result column="store_manager_tel" jdbcType="VARCHAR" property="storeManagerTel" />
+     <result column="supervisor_name" jdbcType="VARCHAR" property="supervisorName" />
+     <result column="traffic_monitoring" jdbcType="CHAR" property="trafficMonitoring" />
+     <result column="video_monitoring" jdbcType="CHAR" property="videoMonitoring" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="es_valid_flag" jdbcType="CHAR" property="esValidFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.channel.dto.CscStoreDTO">
+     <id column="store_id" jdbcType="BIGINT" property="storeId" />
+     <result column="store_no" jdbcType="VARCHAR" property="storeNo" />
+     <result column="store_name" jdbcType="VARCHAR" property="storeName" />
+     <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+     <result column="store_nature" jdbcType="BIGINT" property="storeNature" />
+     <result column="store_status" jdbcType="BIGINT" property="storeStatus" />
+     <result column="store_level" jdbcType="BIGINT" property="storeLevel" />
+     <result column="start_date" jdbcType="DATE" property="startDate" />
+     <result column="business_area" jdbcType="VARCHAR" property="businessArea" />
+     <result column="province" jdbcType="BIGINT" property="province" />
+     <result column="city" jdbcType="BIGINT" property="city" />
+     <result column="county" jdbcType="BIGINT" property="county" />
+     <result column="town" jdbcType="BIGINT" property="town" />
+     <result column="detail_addr" jdbcType="VARCHAR" property="detailAddr" />
+     <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+     <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+     <result column="floor" jdbcType="VARCHAR" property="floor" />
+     <result column="manage_brand" jdbcType="VARCHAR" property="manageBrand" />
+     <result column="plan_staff" jdbcType="INTEGER" property="planStaff" />
+     <result column="fact_staff" jdbcType="INTEGER" property="factStaff" />
+     <result column="store_manager_name" jdbcType="VARCHAR" property="storeManagerName" />
+     <result column="store_manager_tel" jdbcType="VARCHAR" property="storeManagerTel" />
+     <result column="supervisor_name" jdbcType="VARCHAR" property="supervisorName" />
+     <result column="traffic_monitoring" jdbcType="CHAR" property="trafficMonitoring" />
+     <result column="video_monitoring" jdbcType="CHAR" property="videoMonitoring" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="es_valid_flag" jdbcType="CHAR" property="esValidFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     store_id,store_no,store_name,customer_no,city_name,store_nature,
+     store_status,store_level,start_date,business_area,province,city,
+     county,town,detail_addr,longitude,latitude,floor,
+     manage_brand,plan_staff,fact_staff,store_manager_name,store_manager_tel,supervisor_name,
+     traffic_monitoring,video_monitoring,valid_flag,user_id,es_valid_flag,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from csc_store where 1=1
+      <if test="dto.storeId != null">
+      and  store_id = #{dto.storeId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.storeNo != null">
+      and  store_no = #{dto.storeNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.storeName != null">
+      and  store_name = #{dto.storeName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.customerNo != null">
+      and  customer_no = #{dto.customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.cityName != null">
+      and  city_name = #{dto.cityName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.storeNature != null">
+      and  store_nature = #{dto.storeNature,jdbcType=BIGINT}
+      </if>
+      <if test="dto.storeStatus != null">
+      and  store_status = #{dto.storeStatus,jdbcType=BIGINT}
+      </if>
+      <if test="dto.storeLevel != null">
+      and  store_level = #{dto.storeLevel,jdbcType=BIGINT}
+      </if>
+      <if test="dto.startDate != null">
+      and  start_date = #{dto.startDate,jdbcType=DATE}
+      </if>
+      <if test="dto.businessArea != null">
+      and  business_area = #{dto.businessArea,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.province != null">
+      and  province = #{dto.province,jdbcType=BIGINT}
+      </if>
+      <if test="dto.city != null">
+      and  city = #{dto.city,jdbcType=BIGINT}
+      </if>
+      <if test="dto.county != null">
+      and  county = #{dto.county,jdbcType=BIGINT}
+      </if>
+      <if test="dto.town != null">
+      and  town = #{dto.town,jdbcType=BIGINT}
+      </if>
+      <if test="dto.detailAddr != null">
+      and  detail_addr = #{dto.detailAddr,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.longitude != null">
+      and  longitude = #{dto.longitude,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.latitude != null">
+      and  latitude = #{dto.latitude,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.floor != null">
+      and  floor = #{dto.floor,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.manageBrand != null">
+      and  manage_brand = #{dto.manageBrand,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.planStaff != null">
+      and  plan_staff = #{dto.planStaff,jdbcType=INTEGER}
+      </if>
+      <if test="dto.factStaff != null">
+      and  fact_staff = #{dto.factStaff,jdbcType=INTEGER}
+      </if>
+      <if test="dto.storeManagerName != null">
+      and  store_manager_name = #{dto.storeManagerName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.storeManagerTel != null">
+      and  store_manager_tel = #{dto.storeManagerTel,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.supervisorName != null">
+      and  supervisor_name = #{dto.supervisorName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.trafficMonitoring != null">
+      and  traffic_monitoring = #{dto.trafficMonitoring,jdbcType=CHAR}
+      </if>
+      <if test="dto.videoMonitoring != null">
+      and  video_monitoring = #{dto.videoMonitoring,jdbcType=CHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.esValidFlag != null">
+      and  es_valid_flag = #{dto.esValidFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by store_id desc limit #{offset},#{limit}
+  </select>
+  
+  <!-- 全部数据列表  -->
+  <select id="selectByInfo"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from csc_store where 1=1
+      <if test="dto.storeId != null">
+      and  store_id = #{dto.storeId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.storeNo != null">
+      and  store_no = #{dto.storeNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.storeName != null">
+      and  store_name = #{dto.storeName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.customerNo != null">
+      and  customer_no = #{dto.customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.cityName != null">
+      and  city_name = #{dto.cityName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.storeNature != null">
+      and  store_nature = #{dto.storeNature,jdbcType=BIGINT}
+      </if>
+      <if test="dto.storeStatus != null">
+      and  store_status = #{dto.storeStatus,jdbcType=BIGINT}
+      </if>
+      <if test="dto.storeLevel != null">
+      and  store_level = #{dto.storeLevel,jdbcType=BIGINT}
+      </if>
+      <if test="dto.startDate != null">
+      and  start_date = #{dto.startDate,jdbcType=DATE}
+      </if>
+      <if test="dto.businessArea != null">
+      and  business_area = #{dto.businessArea,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.province != null">
+      and  province = #{dto.province,jdbcType=BIGINT}
+      </if>
+      <if test="dto.city != null">
+      and  city = #{dto.city,jdbcType=BIGINT}
+      </if>
+      <if test="dto.county != null">
+      and  county = #{dto.county,jdbcType=BIGINT}
+      </if>
+      <if test="dto.town != null">
+      and  town = #{dto.town,jdbcType=BIGINT}
+      </if>
+      <if test="dto.detailAddr != null">
+      and  detail_addr = #{dto.detailAddr,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.longitude != null">
+      and  longitude = #{dto.longitude,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.latitude != null">
+      and  latitude = #{dto.latitude,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.floor != null">
+      and  floor = #{dto.floor,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.manageBrand != null">
+      and  manage_brand = #{dto.manageBrand,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.planStaff != null">
+      and  plan_staff = #{dto.planStaff,jdbcType=INTEGER}
+      </if>
+      <if test="dto.factStaff != null">
+      and  fact_staff = #{dto.factStaff,jdbcType=INTEGER}
+      </if>
+      <if test="dto.storeManagerName != null">
+      and  store_manager_name = #{dto.storeManagerName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.storeManagerTel != null">
+      and  store_manager_tel = #{dto.storeManagerTel,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.supervisorName != null">
+      and  supervisor_name = #{dto.supervisorName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.trafficMonitoring != null">
+      and  traffic_monitoring = #{dto.trafficMonitoring,jdbcType=CHAR}
+      </if>
+      <if test="dto.videoMonitoring != null">
+      and  video_monitoring = #{dto.videoMonitoring,jdbcType=CHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.esValidFlag != null">
+      and  es_valid_flag = #{dto.esValidFlag,jdbcType=CHAR}
+      </if>
+     
+  </select>
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from csc_store    
+    where store_id = #{storeId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete cs,sus,uc from csc_store cs LEFT JOIN sm_user_store sus ON cs.store_no = sus.store_no
+    LEFT JOIN usc_clerk uc ON uc.belong_store = cs.store_no
+    where cs.store_id = #{storeId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.channel.entity.CscStore">
+   <selectKey keyProperty="storeId" resultType="java.lang.Long"
+			order="BEFORE" statementType="PREPARED">
+			select uuid_short()
+	</selectKey>
+    insert into csc_store (
+	    store_id,store_no,store_name,customer_no,city_name,store_nature,
+	    store_status,store_level,start_date,business_area,province,city,
+	    county,town,detail_addr,longitude,latitude,floor,
+	    manage_brand,plan_staff,fact_staff,store_manager_name,store_manager_tel,supervisor_name,
+	    traffic_monitoring,video_monitoring,user_id
+      )
+    values (
+         #{storeId,jdbcType=BIGINT}, #{storeNo,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{storeNature,jdbcType=BIGINT},
+         #{storeStatus,jdbcType=BIGINT}, #{storeLevel,jdbcType=BIGINT}, #{startDate,jdbcType=DATE}, #{businessArea,jdbcType=VARCHAR}, #{province,jdbcType=BIGINT}, #{city,jdbcType=BIGINT},
+         #{county,jdbcType=BIGINT}, #{town,jdbcType=BIGINT}, #{detailAddr,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{floor,jdbcType=VARCHAR},
+         #{manageBrand,jdbcType=VARCHAR}, #{planStaff,jdbcType=INTEGER}, #{factStaff,jdbcType=INTEGER}, #{storeManagerName,jdbcType=VARCHAR}, #{storeManagerTel,jdbcType=VARCHAR}, #{supervisorName,jdbcType=VARCHAR},
+         #{trafficMonitoring,jdbcType=CHAR}, #{videoMonitoring,jdbcType=CHAR},#{userId,jdbcType=BIGINT}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.channel.entity.CscStore">
+    update csc_store cs LEFT JOIN sm_user_store sus ON cs.store_no = sus.store_no
+    <set>
+      <if test="storeId != null">
+        cs.store_id = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="storeNo != null">
+        cs.store_no = #{storeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null">
+        cs.store_name = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        cs.customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        cs.city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeNature != null">
+        cs.store_nature = #{storeNature,jdbcType=BIGINT},
+      </if>
+      <if test="storeStatus != null">
+        cs.store_status = #{storeStatus,jdbcType=BIGINT},
+      </if>
+      <if test="storeLevel != null">
+        cs.store_level = #{storeLevel,jdbcType=BIGINT},
+      </if>
+      <if test="startDate != null">
+        cs.start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="businessArea != null">
+        cs.business_area = #{businessArea,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        cs.province = #{province,jdbcType=BIGINT},
+      </if>
+      <if test="city != null">
+        cs.city = #{city,jdbcType=BIGINT},
+      </if>
+      <if test="county != null">
+        cs.county = #{county,jdbcType=BIGINT},
+      </if>
+      <if test="town != null">
+        cs.town = #{town,jdbcType=BIGINT},
+      </if>
+      <if test="detailAddr != null">
+        cs.detail_addr = #{detailAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        cs.longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        cs.latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null">
+        cs.floor = #{floor,jdbcType=VARCHAR},
+      </if>
+      <if test="manageBrand != null">
+        cs.manage_brand = #{manageBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="planStaff != null">
+        cs.plan_staff = #{planStaff,jdbcType=INTEGER},
+      </if>
+      <if test="factStaff != null">
+        cs.fact_staff = #{factStaff,jdbcType=INTEGER},
+      </if>
+      <if test="storeManagerName != null">
+        cs.store_manager_name = #{storeManagerName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeManagerTel != null">
+        cs.store_manager_tel = #{storeManagerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorName != null">
+        cs.supervisor_name = #{supervisorName,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficMonitoring != null">
+        cs.traffic_monitoring = #{trafficMonitoring,jdbcType=CHAR},
+      </if>
+      <if test="videoMonitoring != null">
+        cs.video_monitoring = #{videoMonitoring,jdbcType=CHAR},
+      </if>
+      <if test="validFlag != null">
+        cs.valid_flag = #{validFlag,jdbcType=CHAR},sus.valid_flag = #{validFlag,jdbcType=CHAR}
+      </if>
+      <if test="esValidFlag != null">
+        cs.es_valid_flag = #{esValidFlag,jdbcType=CHAR},
+      </if>
+    </set>
+  
+    where store_id = #{storeId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete cs,sus from csc_store cs LEFT JOIN sm_user_store sus ON cs.store_no = sus.store_no where cs.store_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from csc_store where 1=1
+	      <if test="dto.storeId != null">
+	      and  store_id = #{dto.storeId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.storeNo != null">
+	      and  store_no = #{dto.storeNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.storeName != null">
+	      and  store_name = #{dto.storeName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.customerNo != null">
+	      and  customer_no = #{dto.customerNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.cityName != null">
+	      and  city_name = #{dto.cityName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.storeNature != null">
+	      and  store_nature = #{dto.storeNature,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.storeStatus != null">
+	      and  store_status = #{dto.storeStatus,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.storeLevel != null">
+	      and  store_level = #{dto.storeLevel,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.startDate != null">
+	      and  start_date = #{dto.startDate,jdbcType=DATE}
+	      </if>
+	      <if test="dto.businessArea != null">
+	      and  business_area = #{dto.businessArea,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.province != null">
+	      and  province = #{dto.province,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.city != null">
+	      and  city = #{dto.city,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.county != null">
+	      and  county = #{dto.county,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.town != null">
+	      and  town = #{dto.town,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.detailAddr != null">
+	      and  detail_addr = #{dto.detailAddr,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.longitude != null">
+	      and  longitude = #{dto.longitude,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.latitude != null">
+	      and  latitude = #{dto.latitude,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.floor != null">
+	      and  floor = #{dto.floor,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.manageBrand != null">
+	      and  manage_brand = #{dto.manageBrand,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.planStaff != null">
+	      and  plan_staff = #{dto.planStaff,jdbcType=INTEGER}
+	      </if>
+	      <if test="dto.factStaff != null">
+	      and  fact_staff = #{dto.factStaff,jdbcType=INTEGER}
+	      </if>
+	      <if test="dto.storeManagerName != null">
+	      and  store_manager_name = #{dto.storeManagerName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.storeManagerTel != null">
+	      and  store_manager_tel = #{dto.storeManagerTel,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.supervisorName != null">
+	      and  supervisor_name = #{dto.supervisorName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.trafficMonitoring != null">
+	      and  traffic_monitoring = #{dto.trafficMonitoring,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.videoMonitoring != null">
+	      and  video_monitoring = #{dto.videoMonitoring,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.esValidFlag != null">
+	      and  es_valid_flag = #{dto.esValidFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+</mapper>

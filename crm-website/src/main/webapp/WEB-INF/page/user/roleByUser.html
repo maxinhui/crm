@@ -1,0 +1,66 @@
+<script type="text/javascript">
+
+function do_OK(json, $form) {
+    console.log(json)
+    console.log($form)
+}
+
+
+
+function mycallback(json) {
+
+	$(this)
+    .bjuiajax('ajaxDone', json) 
+    if(json.closeCurrent){// 信息提示		                       
+	    var l = $(".nId").length
+	    var htm = "";
+		for(var i = 0 ; i< l ; i++){
+			
+			var n = $(".nId:eq("+i+")");
+			if(n.attr("checked") == 'checked'){
+				var val = $(".nId:eq("+i+")").val();
+				htm += '<input type="hidden" name="oddId" class="oddId" value="'+val+'">'
+			}
+			$.CurrentDialog.find('#hide').html(htm);	
+		}
+		
+    	
+    }
+
+
+}
+</script>
+<div class="bjui-pageContent">
+<form action="${request.contextPath}/smUserRole/add" id="j_custom_form" data-toggle="validate" data-alertmsg="false" data-callback="mycallback">
+    <input type="hidden" name="userId" value="${userId?default('')}">
+    <div class="bjui-row col-3">
+     
+        <br>
+        <label class="row-label" ></label>       
+        <br>
+        <label class="row-label" ></label>   
+       <#if pageDTO.list??>
+        <#list pageDTO.list as dto>       
+         <div class="row-input">
+           <input type="checkbox" class="nId" name="roleId" id="${dto.roleId?default('')}" value="${dto.roleId?default('')}" data-toggle="icheck" data-label="${dto.roleName?default('')}" >
+         </div>
+        </#list>
+       </#if>  
+         
+        
+    </div>
+    <div id="hide">
+       <#if pageFTO.list??>
+         <#list pageFTO.list as fto>
+           <input type="hidden" name="oddId" class="oddId" value="${fto.roleId?default('')}">
+         </#list>
+       </#if>
+    </div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

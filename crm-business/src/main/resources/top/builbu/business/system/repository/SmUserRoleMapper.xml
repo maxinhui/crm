@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.system.repository.SmUserRoleMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.system.entity.SmUserRole">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="role_id" jdbcType="BIGINT" property="roleId" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.system.dto.SmUserRoleDTO">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="role_id" jdbcType="BIGINT" property="roleId" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     row_id,user_id,role_id,valid_flag,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_user_role where 1=1
+      <if test="dto.rowId != null">
+      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.userId != null">
+      and  user_id = #{dto.userId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.roleId != null">
+      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by row_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.math.BigInteger" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sm_user_role    
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigInteger">
+    delete from sm_user_role
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.system.entity.SmUserRole">
+    insert into sm_user_role (
+	    row_id,user_id,role_id,valid_flag,ts
+      )
+    values (
+         #{rowId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{validFlag,jdbcType=CHAR}, #{ts,jdbcType=TIMESTAMP}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.system.entity.SmUserRole">
+    update sm_user_role
+    <set>
+      <if test="rowId != null">
+        row_id = #{rowId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="validFlag != null">
+        valid_flag = #{validFlag,jdbcType=CHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where row_id = #{rowId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.math.BigInteger">
+      delete from sm_user_role where row_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from sm_user_role where 1=1
+	      <if test="dto.rowId != null">
+	      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.userId != null">
+	      and  user_id = #{dto.userId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.roleId != null">
+	      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+	
+	
+	<!-- 所有数据  -->
+  <select id="selectByInfo"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_user_role where 1=1
+      <if test="dto.rowId != null">
+      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.userId != null">
+      and  user_id = #{dto.userId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.roleId != null">
+      and  role_id = #{dto.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by ts desc
+  </select>
+  
+   <!-- 批量插入 -->
+  <insert id="saveList"  parameterType="java.util.List">  
+    insert into sm_user_role (
+	    row_id,user_id,role_id)
+       values 
+    <foreach collection="list" item="item" index="index"  separator=","  >  
+        (uuid_short(),#{item.userId,jdbcType=BIGINT}, #{item.roleId,jdbcType=BIGINT})  
+    </foreach>  
+</insert>
+
+<!--   批量删除       -->
+  <delete id="deleteByRoleAll" parameterType="java.lang.Long">
+      delete from sm_user_role where role_id in
+      <foreach item="id" collection="delids"  open="(" separator="," close=")">
+          #{id}
+      </foreach>
+      and user_id = #{userId}
+  </delete>
+</mapper>

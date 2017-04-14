@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.system.repository.SmButtonMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.system.entity.SmButton">
+     <id column="button_id" jdbcType="BIGINT" property="buttonId" />
+     <result column="button_no" jdbcType="VARCHAR" property="buttonNo" />
+     <result column="button_name" jdbcType="VARCHAR" property="buttonName" />
+     <result column="button_type" jdbcType="CHAR" property="buttonType" />
+     <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+     <result column="button_url" jdbcType="VARCHAR" property="buttonUrl" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.system.dto.SmButtonDTO">
+     <id column="button_id" jdbcType="BIGINT" property="buttonId" />
+     <result column="button_no" jdbcType="VARCHAR" property="buttonNo" />
+     <result column="button_name" jdbcType="VARCHAR" property="buttonName" />
+     <result column="button_type" jdbcType="CHAR" property="buttonType" />
+     <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+     <result column="button_url" jdbcType="VARCHAR" property="buttonUrl" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     button_id,button_no,button_name,button_type,menu_id,button_url,
+     valid_flag,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_button where 1=1
+      <if test="dto.buttonId != null">
+      and  button_id = #{dto.buttonId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.buttonNo != null">
+      and  button_no = #{dto.buttonNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.buttonName != null">
+      and  button_name = #{dto.buttonName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.buttonType != null">
+      and  button_type = #{dto.buttonType,jdbcType=CHAR}
+      </if>
+      <if test="dto.menuId != null">
+      and  menu_id = #{dto.menuId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.buttonUrl != null">
+      and  button_url = #{dto.buttonUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by button_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sm_button    
+    where button_id = #{buttonId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sm_button
+    where button_id = #{buttonId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.system.entity.SmButton">
+    <selectKey keyProperty="buttonId" resultType="java.lang.Long"
+			order="BEFORE" statementType="PREPARED">
+			select uuid_short()
+	</selectKey>
+    insert into sm_button (
+	    button_id,button_no,button_name,button_type,menu_id,button_url
+      )
+    values (
+         #{buttonId,jdbcType=BIGINT}, #{buttonNo,jdbcType=VARCHAR}, #{buttonName,jdbcType=VARCHAR}, #{buttonType,jdbcType=CHAR}, #{menuId,jdbcType=BIGINT}, #{buttonUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.system.entity.SmButton">
+    update sm_button
+    <set>
+      <if test="buttonId != null">
+        button_id = #{buttonId,jdbcType=BIGINT},
+      </if>
+      <if test="buttonNo != null">
+        button_no = #{buttonNo,jdbcType=VARCHAR},
+      </if>
+      <if test="buttonName != null">
+        button_name = #{buttonName,jdbcType=VARCHAR},
+      </if>
+      <if test="buttonType != null">
+        button_type = #{buttonType,jdbcType=CHAR},
+      </if>
+      <if test="menuId != null">
+        menu_id = #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="buttonUrl != null">
+        button_url = #{buttonUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null">
+        valid_flag = #{validFlag,jdbcType=CHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where button_id = #{buttonId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete from sm_button where button_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from sm_button where 1=1
+	      <if test="dto.buttonId != null">
+	      and  button_id = #{dto.buttonId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.buttonNo != null">
+	      and  button_no = #{dto.buttonNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.buttonName != null">
+	      and  button_name = #{dto.buttonName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.buttonType != null">
+	      and  button_type = #{dto.buttonType,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.menuId != null">
+	      and  menu_id = #{dto.menuId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.buttonUrl != null">
+	      and  button_url = #{dto.buttonUrl,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+	
+	<!-- 所有數據 -->
+	<select id="selectByInfo"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_button where 1=1
+      <if test="dto.buttonId != null">
+      and  button_id = #{dto.buttonId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.buttonNo != null">
+      and  button_no = #{dto.buttonNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.buttonName != null">
+      and  button_name = #{dto.buttonName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.buttonType != null">
+      and  button_type = #{dto.buttonType,jdbcType=CHAR}
+      </if>
+      <if test="dto.menuId != null">
+      and  menu_id = #{dto.menuId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.buttonUrl != null">
+      and  button_url = #{dto.buttonUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by ts desc
+  </select>
+  
+<!--   roleId 插叙类表所属按钮 -->
+  <select id="selectByRoleId" resultMap="BaseResultMapDTO">
+    select 
+     sb.button_no,sb.button_name,sb.button_type,sb.menu_id,sb.button_url,
+     sb.valid_flag from sm_button sb LEFT JOIN sm_role_func src ON sb.button_id = src.func_id
+     where src.role_id = #{roleId,jdbcType=BIGINT} and sb.valid_Flag = 'Y'
+  </select>
+</mapper>

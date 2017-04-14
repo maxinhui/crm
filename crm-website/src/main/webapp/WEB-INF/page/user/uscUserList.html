@@ -1,0 +1,136 @@
+<div class="bjui-pageHeader">
+    <form id="pagerForm" data-toggle="ajaxsearch" action="${request.contextPath}/uscUser/selectByUserList?userType=${userType?default('')}" method="get">
+        <input type="hidden" name="pageSize" value="${pageDTO.pageSize}">
+        <input type="hidden" name="pageCurrent" value="${pageDTO.pageCurrent}">
+        <input type="hidden" name="orderField" value="">
+        <input type="hidden" name="orderDirection" value="">
+        <div class="bjui-searchBar">
+        <label>手机号：</label><input type="text" id="mobileNo" value="${searchDTO.mobileNo?default('')}" name="mobileNo" class="form-control" size="10">&nbsp;
+            <label>是否有效：</label>
+            <select name="validFlag" data-toggle="selectpicker">
+                <option value="Y" <#if searchDTO.validFlag??&&searchDTO.validFlag == 'Y'>selected</#if>>是</option>
+                <option value="N" <#if searchDTO.validFlag??&&searchDTO.validFlag == 'N'>selected</#if>>否</option>
+                
+            </select>&nbsp;
+            <label>是否锁定：</label>
+            <select name="lockFlag" data-toggle="selectpicker">
+                <option value="N" <#if searchDTO.lockFlag??&&searchDTO.lockFlag == 'N'>selected</#if>>否</option>
+                <option value="Y" <#if searchDTO.lockFlag??&&searchDTO.lockFlag == 'Y'>selected</#if>>是</option>
+                             
+            </select>&nbsp;
+<!--             <input type="checkbox" id="j_table_chk" value="true" data-toggle="icheck" data-label="我的客户">&nbsp; -->
+            
+	         <div class="bjui-moreSearch">
+	        </div>
+	        
+            <button type="button" class="showMoreSearch" data-toggle="moresearch" data-name="custom2"><i class="fa fa-angle-double-down"></i></button>
+            <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
+            <a class="btn btn-orange" href="javascript:;" onclick="$(this).navtab('reloadForm', true);" data-icon="undo">清空查询</a>&nbsp;
+            <#if userType != 3><a class="btn btn-green" href="${request.contextPath}/uscUser/forAdd?userType=${userType?default('')}"  data-icon="plus" data-icon="plus" data-toggle="dialog" data-width="1200" data-height="800" data-id="uscUserAdd" data-reload-warn="本页已有打开的内容，确定将刷新本页内容，是否继续？" data-title="添加">添加</a></#if>
+            <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn-default dropdown-toggle" data-toggle="dropdown" data-icon="copy">复选框-批量操作<span class="caret"></span></button>
+                    <ul class="dropdown-menu right" role="menu">
+                        <li><a href="book1.xlsx" data-toggle="doexport" data-confirm-msg="确定要导出信息吗？">导出<span style="color: green;">全部</span></a></li>
+                        <li><a href="book1.xlsx" data-toggle="doexportchecked" data-confirm-msg="确定要导出选中项吗？" data-idname="expids" data-group="ids">导出<span style="color: red;">选中</span></a></li>
+                        <li class="divider"></li>
+                        <li><a href="${request.contextPath}/uscUser/deleteByCheck" data-toggle="doajaxchecked" data-confirm-msg="确定要删除选中项吗？" data-idname="delids" data-group="ids" data-callback="del_callback">删除选中</a></li>
+                    </ul>
+                </div>
+            </div>
+                                                                                                                                                                                                                                                </div>
+   
+    </form>
+</div>
+<div class="bjui-pageContent tableContent">
+    <table data-toggle="tablefixed" data-width="100%" data-nowrap="true">
+        <thead>
+            <tr>
+                <th >NO.</th>
+                <th data-order-field="user_no">用户编号</th>
+                <th data-order-field="nick_name">用户昵称</th>
+                <th data-order-field="user_name">用户名称</th>
+                <th data-order-field="password">登录密码</th>
+                <th data-order-field="gender">用户性别</th>
+                <th data-order-field="mobile_no">手机号码</th>
+                <th data-order-field="birthday">生日</th>
+                <th data-order-field="remark">备注说明</th>
+                <th data-order-field="valid_flag">是否有效</th>
+                <th data-order-field="lock_flag">是否锁定</th>
+                <th data-order-field="belongStore">所属门店</th>
+                <th width="26"><input type="checkbox" class="checkboxCtrl" data-group="ids" data-toggle="icheck"></th>
+                <th width="150">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        <#if pageDTO.list??>
+        <#assign x=0 />
+           <#list pageDTO.list as dto>
+           <tr data-id="${dto.userId}">
+             <#assign x=x+1 >
+                <td>#{(pageDTO.pageCurrent-1)*pageDTO.pageSize+x}</td>
+                <td>${dto.userNo?default('')}</td>
+                <td>${dto.nickName?default('')}</td>
+                <td>${dto.userName?default('')}</td>
+                <td>${dto.password?default('')}</td>
+                <td>${dto.gender?default('')}</td>
+                <td>${dto.mobileNo?default('')}</td>
+                <td><#if dto.birthday??>${dto.birthday?date}</#if></td>
+                <td>${dto.remark?default('')}</td>
+                <td>${dto.validFlag?default('')}</td>
+                <td>${dto.lockFlag?default('')}</td>
+                <td>${dto.belongStore?default('')}</td>
+                <td><input type="checkbox" name="ids" data-toggle="icheck" value="${dto.userId}"></td>           
+                <td>
+                    <a href="${request.contextPath}/uscUser/selectById?id=${dto.userId}" class="btn btn-green" data-toggle="dialog" data-width="1200" data-height="800" data-id="uscUserEdit" data-reload-warn="本页已有打开的内容，确定将刷新本页内容，是否继续？" data-title="编辑">编辑</a>
+<!--                     <#if dto.userType != 3><a href="${request.contextPath}/uscUser/deleteById?id=${dto.userId}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该行信息吗？" data-callback="del_callback">删</a></#if> -->
+                   <#if dto.userType== 1 || dto.userType == 3> <a href="${request.contextPath}/smUserRole/selectByInfo?userId=${dto.userId}" class="btn btn-green" data-toggle="dialog"  data-width="600"  data-height="400" data-on-load="odd" data-id="roleByUser" data-title="角色编辑">角色编辑</a></#if>                  
+                </td>
+           </tr>
+           </#list> 
+           </#if> 
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+    <div class="pages">
+        <span>每页&nbsp;</span>
+        <div class="selectPagesize">
+            <select data-toggle="selectpicker" data-toggle-change="changepagesize">
+                <option value="30">30</option>
+                <option value="60">60</option>
+                <option value="120">120</option>
+                <option value="150">150</option>
+            </select>
+        </div>
+        <span>&nbsp;条，共 ${pageDTO.total?default('')} 条</span>
+    </div>
+    <div class="pagination-box" data-toggle="pagination" data-total="${pageDTO.total?default('')}" data-page-size="${pageDTO.pageSize?default('')}" data-page-current="${pageDTO.pageCurrent?default('')}">
+    </div>
+    </div>
+<script type="text/javascript">
+
+function del_callback(json) {
+
+	$(this)
+    .bjuiajax('ajaxDone', json)       // 信息提示		                       
+   
+    if(json.closeCurrent){
+       $(this)
+           .navtab('refresh')
+    }
+
+
+}
+
+function odd(){
+
+	var l = $(".oddId").length
+	for(var i = 0 ; i< l ; i++){
+		
+		var id = $(".oddId:eq("+i+")").val();
+		$.CurrentDialog.find('#'+id).iCheck('check')
+		
+	}
+}
+</script>      

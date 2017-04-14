@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.channel.repository.CscStoreNatureMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.channel.entity.CscStoreNature">
+     <id column="nature_id" jdbcType="BIGINT" property="natureId" />
+     <result column="esrow_id" jdbcType="VARCHAR" property="esrowId" />
+     <result column="nature_name" jdbcType="VARCHAR" property="natureName" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.channel.dto.CscStoreNatureDTO">
+     <id column="nature_id" jdbcType="BIGINT" property="natureId" />
+     <result column="esrow_id" jdbcType="VARCHAR" property="esrowId" />
+     <result column="nature_name" jdbcType="VARCHAR" property="natureName" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     nature_id,esrow_id,nature_name,valid_flag,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from csc_store_nature where 1=1
+      <if test="dto.natureId != null">
+      and  nature_id = #{dto.natureId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.esrowId != null">
+      and  esrow_id = #{dto.esrowId,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.natureName != null">
+      and  nature_name = #{dto.natureName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by nature_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from csc_store_nature    
+    where nature_id = #{natureId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from csc_store_nature
+    where nature_id = #{natureId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.channel.entity.CscStoreNature">
+    insert into csc_store_nature (
+	    nature_id,esrow_id,nature_name,valid_flag,ts
+      )
+    values (
+         #{natureId,jdbcType=BIGINT}, #{esrowId,jdbcType=VARCHAR}, #{natureName,jdbcType=VARCHAR}, #{validFlag,jdbcType=CHAR}, #{ts,jdbcType=TIMESTAMP}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.channel.entity.CscStoreNature">
+    update csc_store_nature
+    <set>
+      <if test="natureId != null">
+        nature_id = #{natureId,jdbcType=BIGINT},
+      </if>
+      <if test="esrowId != null">
+        esrow_id = #{esrowId,jdbcType=VARCHAR},
+      </if>
+      <if test="natureName != null">
+        nature_name = #{natureName,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null">
+        valid_flag = #{validFlag,jdbcType=CHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where nature_id = #{natureId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete from csc_store_nature where nature_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from csc_store_nature where 1=1
+	      <if test="dto.natureId != null">
+	      and  nature_id = #{dto.natureId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.esrowId != null">
+	      and  esrow_id = #{dto.esrowId,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.natureName != null">
+	      and  nature_name = #{dto.natureName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+</mapper>

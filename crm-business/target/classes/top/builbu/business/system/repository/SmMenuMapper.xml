@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.system.repository.SmMenuMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.system.entity.SmMenu">
+     <id column="menu_id" jdbcType="BIGINT" property="menuId" />
+     <result column="menu_no" jdbcType="VARCHAR" property="menuNo" />
+     <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+     <result column="display_order" jdbcType="VARCHAR" property="displayOrder" />
+     <result column="menu_level" jdbcType="CHAR" property="menuLevel" />
+     <result column="menu_type" jdbcType="INTEGER" property="menuType" />
+     <result column="parent_menu_id" jdbcType="BIGINT" property="parentMenuId" />
+     <result column="is_leaf" jdbcType="CHAR" property="isLeaf" />
+     <result column="is_button_power" jdbcType="CHAR" property="isButtonPower" />
+     <result column="is_report" jdbcType="CHAR" property="isReport" />
+     <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
+     <result column="designer" jdbcType="VARCHAR" property="designer" />
+     <result column="developer" jdbcType="VARCHAR" property="developer" />
+     <result column="contributer" jdbcType="VARCHAR" property="contributer" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.system.dto.SmMenuDTO">
+     <id column="menu_id" jdbcType="BIGINT" property="menuId" />
+     <result column="menu_no" jdbcType="VARCHAR" property="menuNo" />
+     <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+     <result column="display_order" jdbcType="VARCHAR" property="displayOrder" />
+     <result column="menu_level" jdbcType="CHAR" property="menuLevel" />
+     <result column="menu_type" jdbcType="INTEGER" property="menuType" />
+     <result column="parent_menu_id" jdbcType="BIGINT" property="parentMenuId" />
+     <result column="is_leaf" jdbcType="CHAR" property="isLeaf" />
+     <result column="is_button_power" jdbcType="CHAR" property="isButtonPower" />
+     <result column="is_report" jdbcType="CHAR" property="isReport" />
+     <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
+     <result column="designer" jdbcType="VARCHAR" property="designer" />
+     <result column="developer" jdbcType="VARCHAR" property="developer" />
+     <result column="contributer" jdbcType="VARCHAR" property="contributer" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     menu_id,menu_no,menu_name,display_order,menu_level,menu_type,
+     parent_menu_id,is_leaf,is_button_power,is_report,page_url,designer,
+     developer,contributer,remark,valid_flag,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_menu where 1=1
+      <if test="dto.menuId != null">
+      and  menu_id = #{dto.menuId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.menuNo != null">
+      and  menu_no = #{dto.menuNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.menuName != null">
+      and  menu_name = #{dto.menuName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.displayOrder != null">
+      and  display_order = #{dto.displayOrder,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.menuLevel != null">
+      and  menu_level = #{dto.menuLevel,jdbcType=CHAR}
+      </if>
+      <if test="dto.menuType != null">
+      and  menu_type = #{dto.menuType,jdbcType=INTEGER}
+      </if>
+      <if test="dto.parentMenuId != null">
+      and  parent_menu_id = #{dto.parentMenuId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.isLeaf != null">
+      and  is_leaf = #{dto.isLeaf,jdbcType=CHAR}
+      </if>
+      <if test="dto.isButtonPower != null">
+      and  is_button_power = #{dto.isButtonPower,jdbcType=CHAR}
+      </if>
+      <if test="dto.isReport != null">
+      and  is_report = #{dto.isReport,jdbcType=CHAR}
+      </if>
+      <if test="dto.pageUrl != null">
+      and  page_url = #{dto.pageUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.designer != null">
+      and  designer = #{dto.designer,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.developer != null">
+      and  developer = #{dto.developer,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.contributer != null">
+      and  contributer = #{dto.contributer,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.remark != null">
+      and  remark = #{dto.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by menu_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sm_menu    
+    where menu_id = #{menuId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete sm,srf,sb,m_m from sm_menu sm LEFT JOIN sm_button sb ON sb.menu_id = sm.menu_id LEFT JOIN sm_role_func srf ON sm.menu_id = srf.func_id = sb.menu_id LEFT JOIN sm_menu m_m ON sm.menu_id = m_m.parent_menu_id
+    where sm.menu_id = #{menuId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.system.entity.SmMenu">
+    <selectKey keyProperty="menuId" resultType="java.lang.Long"
+			order="BEFORE" statementType="PREPARED">
+			select uuid_short()
+	</selectKey>
+    insert into sm_menu (
+	    menu_id,menu_no,menu_name,display_order,menu_level,menu_type,
+	    parent_menu_id,is_leaf,is_button_power,is_report,page_url,designer,
+	    developer,contributer,remark
+      )
+    values (
+         #{menuId,jdbcType=BIGINT}, #{menuNo,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{displayOrder,jdbcType=VARCHAR}, #{menuLevel,jdbcType=CHAR}, #{menuType,jdbcType=INTEGER},
+         #{parentMenuId,jdbcType=BIGINT}, #{isLeaf,jdbcType=CHAR}, #{isButtonPower,jdbcType=CHAR}, #{isReport,jdbcType=CHAR}, #{pageUrl,jdbcType=VARCHAR}, #{designer,jdbcType=VARCHAR},
+         #{developer,jdbcType=VARCHAR}, #{contributer,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.system.entity.SmMenu">
+    update sm_menu sm LEFT JOIN sm_role_func srf ON sm.menu_id = srf.func_id LEFT JOIN sm_button sb ON srf.func_id = sb.menu_id
+    <set>
+      <if test="menuId != null">
+        sm.menu_id = #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="menuNo != null">
+        sm.menu_no = #{menuNo,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        sm.menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="displayOrder != null">
+        sm.display_order = #{displayOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null">
+        sm.menu_level = #{menuLevel,jdbcType=CHAR},
+      </if>
+      <if test="menuType != null">
+        sm.menu_type = #{menuType,jdbcType=INTEGER},
+      </if>
+      <if test="parentMenuId != null">
+        sm.parent_menu_id = #{parentMenuId,jdbcType=BIGINT},
+      </if>
+      <if test="isLeaf != null">
+        sm.is_leaf = #{isLeaf,jdbcType=CHAR},
+      </if>
+      <if test="isButtonPower != null">
+        sm.is_button_power = #{isButtonPower,jdbcType=CHAR},
+      </if>
+      <if test="isReport != null">
+        sm.is_report = #{isReport,jdbcType=CHAR},
+      </if>
+      <if test="pageUrl != null">
+        sm.page_url = #{pageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="designer != null">
+        sm.designer = #{designer,jdbcType=VARCHAR},
+      </if>
+      <if test="developer != null">
+        sm.developer = #{developer,jdbcType=VARCHAR},
+      </if>
+      <if test="contributer != null">
+        sm.contributer = #{contributer,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        sm.remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null">
+        sm.valid_flag = #{validFlag,jdbcType=CHAR},srf.valid_flag = #{validFlag,jdbcType=CHAR},sb.valid_flag = #{validFlag,jdbcType=CHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where sm.menu_id = #{menuId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete from sm_menu where menu_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from sm_menu where 1=1
+	      <if test="dto.menuId != null">
+	      and  menu_id = #{dto.menuId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.menuNo != null">
+	      and  menu_no = #{dto.menuNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.menuName != null">
+	      and  menu_name = #{dto.menuName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.displayOrder != null">
+	      and  display_order = #{dto.displayOrder,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.menuLevel != null">
+	      and  menu_level = #{dto.menuLevel,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.menuType != null">
+	      and  menu_type = #{dto.menuType,jdbcType=INTEGER}
+	      </if>
+	      <if test="dto.parentMenuId != null">
+	      and  parent_menu_id = #{dto.parentMenuId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.isLeaf != null">
+	      and  is_leaf = #{dto.isLeaf,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.isButtonPower != null">
+	      and  is_button_power = #{dto.isButtonPower,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.isReport != null">
+	      and  is_report = #{dto.isReport,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.pageUrl != null">
+	      and  page_url = #{dto.pageUrl,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.designer != null">
+	      and  designer = #{dto.designer,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.developer != null">
+	      and  developer = #{dto.developer,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.contributer != null">
+	      and  contributer = #{dto.contributer,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.remark != null">
+	      and  remark = #{dto.remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+	
+	<!-- 所有數據 -->
+	 <select id="selectByInfo"  resultMap="BaseResultMapDTO">
+     select 
+     menu_id,menu_no,menu_name,menu_level,menu_type,
+     parent_menu_id,page_url,remark,valid_flag
+     from sm_menu  where 1=1
+      <if test="dto.menuId != null">
+      and  menu_id = #{dto.menuId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.menuNo != null">
+      and  menu_no = #{dto.menuNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.menuName != null">
+      and  menu_name = #{dto.menuName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.displayOrder != null">
+      and  display_order = #{dto.displayOrder,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.menuLevel != null">
+      and  menu_level = #{dto.menuLevel,jdbcType=CHAR}
+      </if>
+      <if test="dto.menuType != null">
+      and  menu_type = #{dto.menuType,jdbcType=INTEGER}
+      </if>
+      <if test="dto.parentMenuId != null">
+      and  parent_menu_id = #{dto.parentMenuId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.isLeaf != null">
+      and  is_leaf = #{dto.isLeaf,jdbcType=CHAR}
+      </if>
+      <if test="dto.isButtonPower != null">
+      and  is_button_power = #{dto.isButtonPower,jdbcType=CHAR}
+      </if>
+      <if test="dto.isReport != null">
+      and  is_report = #{dto.isReport,jdbcType=CHAR}
+      </if>
+      <if test="dto.pageUrl != null">
+      and  page_url = #{dto.pageUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.designer != null">
+      and  designer = #{dto.designer,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.developer != null">
+      and  developer = #{dto.developer,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.contributer != null">
+      and  contributer = #{dto.contributer,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.remark != null">
+      and  remark = #{dto.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by ts desc 
+  </select>
+  
+<!--   roleId 查询所属列表 -->
+  <select id="selectByRoleId" resultMap="BaseResultMapDTO">
+  select 
+     sm.menu_id,sm.menu_no,sm.menu_name,sm.menu_level,sm.menu_type,sm.display_order,
+     sm.parent_menu_id,sm.page_url,sm.remark,sm.valid_flag
+     from sm_menu sm LEFT JOIN sm_role_func src ON sm.menu_id = src.func_id
+     where src.role_id = #{roleId,jdbcType=BIGINT} and sm.valid_flag = 'Y'
+  </select>
+</mapper>

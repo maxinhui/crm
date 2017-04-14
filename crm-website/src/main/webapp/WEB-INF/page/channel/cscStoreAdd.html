@@ -1,0 +1,142 @@
+<script type="text/javascript">
+function pic_upload_success(file, data) {
+    var json = $.parseJSON(data)
+    
+    $(this).bjuiajax('ajaxDone', json)
+    if (json.success) {
+        $('#custom_pic').val(json.module).trigger('validate')
+        $('#custom_span_pic').html('<img src="'+ json.module +'" width="100" />')
+    }
+}
+function do_OK(json, $form) {
+    console.log(json)
+    console.log($form)
+}
+
+function mycallback(json) {
+
+	$(this)
+    .bjuiajax('ajaxDone', json)       // 信息提示		                       
+   
+    if(json.closeCurrent){
+       $(this)
+           .navtab('reloadFlag', json.tabid)
+           .dialog('refresh')	
+    }
+
+
+}
+
+</script>
+<div class="bjui-pageContent">
+<form action="${request.contextPath}/cscStore/save" id="j_custom_form" data-toggle="validate" data-alertmsg="false" data-callback="mycallback">
+    <input type="hidden" name="custom.id" value="edce142bc2ed4ec6b623aacaf602a4de">
+    <div class="bjui-row col-3">
+     
+        <br>
+                <label class="row-label" >店铺编号</label>
+         <div class="row-input required">
+            <input type="text" name="storeNo" id="storeNo" value="" data-rule="required">
+         </div>
+                <label class="row-label" >店铺名称</label>
+         <div class="row-input required">
+            <input type="text" name="storeName" id="storeName" value="" data-rule="required">
+         </div>
+          <input type="hidden" name="customerNo" value="${memberDTO.loginNo?default('')}">  
+         
+                <label class="row-label" >所在城市</label>
+         <div class="row-input required">
+            <input type="text" name="cityName" id="cityName" value="" data-rule="required">
+         </div>
+                <label class="row-label" >店铺经营性质</label>
+         <div class="row-input required">
+            <input type="text" name="storeNature" id="storeNature" value="" data-rule="required">
+         </div>
+                <label class="row-label" >店铺状态</label>
+         <div class="row-input required">
+            <input type="text" name="storeStatus" id="storeStatus" value="" data-rule="required">
+         </div>
+                <label class="row-label" >开业日期</label>
+         <div class="row-input required">
+            <input type="text" name="startDate" id="startDate" value="" data-toggle="datepicker" data-pattern="yyyy/MM/dd" data-rule="required">
+         </div>
+                <label class="row-label" >卖场面积</label>
+         <div class="row-input required">
+            <input type="text" name="businessArea" id="businessArea" value="" data-rule="required">
+         </div>
+                <label class="row-label" >省/直辖市</label>
+         <div class="row-input required">
+            <input type="text" name="province" id="province" value="" data-rule="required">
+         </div>
+                <label class="row-label" >地级市/市辖区/市辖县</label>
+         <div class="row-input required">
+            <input type="text" name="city" id="city" value="" data-rule="required">
+         </div>
+                <label class="row-label" >县级市/区/县</label>
+         <div class="row-input required">
+            <input type="text" name="county" id="county" value="" data-rule="required">
+         </div>
+                <label class="row-label" >乡/镇/街道</label>
+         <div class="row-input">
+            <input type="text" name="town" id="town" value=""">
+         </div>
+                <label class="row-label" >详细地址</label>
+         <div class="row-input required">
+            <input type="text" name="detailAddr" id="detailAddr" value="" data-rule="required">
+         </div>
+                <label class="row-label" >经度</label>
+         <div class="row-input">
+            <input type="text" name="longitude" id="longitude" value="" >
+         </div>
+                <label class="row-label" >纬度</label>
+         <div class="row-input">
+            <input type="text" name="latitude" id="latitude" value="">
+         </div>
+                <label class="row-label" >所在楼层</label>
+         <div class="row-input required">
+            <input type="text" name="floor" id="floor" value="" data-rule="required">
+         </div>
+                <label class="row-label" >经营品牌</label>
+         <div class="row-input required">
+            <input type="text" name="manageBrand" id="manageBrand" value="" data-rule="required">
+         </div>
+                <label class="row-label" >编制人数</label>
+         <div class="row-input required">
+            <input type="text" name="planStaff" id="planStaff" value="" data-rule="required">
+         </div>
+                <label class="row-label" >实际人数</label>
+         <div class="row-input required">
+            <input type="text" name="factStaff" id="factStaff" value="" data-rule="required">
+         </div>
+                <label class="row-label" >店长姓名</label>
+         <div class="row-input required">
+            <input type="text" name="storeManagerName" id="storeManagerName" value="" data-rule="required">
+         </div>
+                <label class="row-label" >店长联系电话</label>
+         <div class="row-input required">
+            <input type="text" name="storeManagerTel" id="storeManagerTel" value="" data-rule="required">
+         </div>
+                <label class="row-label" >主管</label>
+         <div class="row-input required">
+            <input type="text" name="supervisorName" id="supervisorName" value="" data-rule="required">
+         </div>
+                <label class="row-label" >客流监控</label>
+         <div class="row-input">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="trafficMonitoring" value="Y" data-toggle="icheck" data-label="有" >
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="trafficMonitoring" value="N" data-toggle="icheck" data-label="无" >      
+         </div>
+                <label class="row-label" >视频监控</label>
+         <div class="row-input">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="videoMonitoring" value="Y" data-toggle="icheck" data-label="有" >
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="videoMonitoring" value="N" data-toggle="icheck" data-label="无" >   
+         </div>
+
+    </div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

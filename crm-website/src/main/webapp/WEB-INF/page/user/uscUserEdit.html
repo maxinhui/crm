@@ -1,0 +1,165 @@
+<script type="text/javascript">
+function pic_upload_success(file, data) {
+    var json = $.parseJSON(data)
+    
+    $(this).bjuiajax('ajaxDone', json)
+    if (json.success) {
+        $('#custom_pic').val(json.module).trigger('validate')
+        $('#custom_span_pic').html('<img src="'+ json.module +'" width="100" />')
+    }
+}
+function do_OK(json, $form) {
+    console.log(json)
+    console.log($form)
+}
+
+function mycallback(json) {
+
+	$(this)
+    .bjuiajax('ajaxDone', json)       // 信息提示		                       
+   
+    if(json.closeCurrent){
+       $(this)
+           .navtab('reloadFlag', json.tabid)
+           .dialog('closeCurrent')	
+    }
+
+}
+</script>
+<div class="bjui-pageContent">
+<form action="${request.contextPath}/uscUser/update" id="j_custom_form" data-toggle="validate" data-alertmsg="false" data-callback="mycallback">
+    <input type="hidden" name="custom.id" value="edce142bc2ed4ec6b623aacaf602a4de">
+    <input type="hidden" name="userId" value="${module.userId}">
+    <div class="bjui-row col-3">
+     
+        <br>
+                <label class="row-label" >用户编号</label>
+         <div class="row-input">
+            <input type="text" name="userNo" id="userNo" value="${module.userNo?default('')}"  disabled>
+         </div>
+                <label class="row-label" >用户昵称</label>
+         <div class="row-input required">
+            <input type="text" name="nickName" id="nickName" value="${module.nickName?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >用户名称</label>
+         <div class="row-input required">
+            <input type="text" name="userName" id="userName" value="${module.userName?default('')}" data-rule="required">
+         </div>
+                <label class="row-label" >用户性别</label>
+         <div class="row-input">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="FEMALE" data-toggle="icheck" data-label="女" <#if module.gender??&&module.gender == 'FEMALE'>checked</#if>>
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="MALE" data-toggle="icheck" data-label="男" <#if module.gender??&&module.gender == 'MALE'>checked</#if>>           
+         </div>
+                <label class="row-label" >身份证号码</label>
+         <div class="row-input">
+            <input type="text" name="idCardNo" id="idCardNo" value="${module.idCardNo?default('')}" disabled>
+         </div>
+                 <label class="row-label" >手机号码</label>
+         <div class="row-input">
+            <input type="text" name="mobileNo" id="mobileNo" value="${module.mobileNo?default('')}" disabled>
+         </div>
+                <label class="row-label" >电子邮箱</label>
+         <div class="row-input">
+            <input type="text" name="emailNo" id="emailNo" value="${module.emailNo?default('')}">
+         </div>
+                <label class="row-label" >生日</label>
+         <div class="row-input">
+            <input type="text" name="birthday" id="birthday" value="<#if module.birthday??>${module.birthday?string('yyyy/MM/dd')}</#if>" disabled>
+         </div>
+                <label class="row-label" >省/直辖市</label>
+         <div class="row-input">
+            <input type="text" name="province" id="province" value="${module.province?default('')}">
+         </div>
+                <label class="row-label" >地级市/市辖区/市辖县</label>
+         <div class="row-input">
+            <input type="text" name="city" id="city" value="${module.city?default('')}">
+         </div>
+                <label class="row-label" >县级市/区/县</label>
+         <div class="row-input">
+            <input type="text" name="county" id="county" value="${module.county?default('')}">
+         </div>
+                <label class="row-label" >乡/镇/街道</label>
+         <div class="row-input">
+            <input type="text" name="town" id="town" value="${module.town?default('')}">
+         </div>
+                <label class="row-label" >详细地址</label>
+         <div class="row-input">
+            <input type="text" name="address" id="address" value="${module.address?default('')}">
+         </div>
+                <label class="row-label" >备注说明</label>
+         <div class="row-input">
+            <input type="text" name="remark" id="remark" value="${module.remark?default('')}">
+         </div>
+         <br>
+                <label class="row-label" >有效标识</label>
+         <div class="row-input">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="validFlag" value="Y" data-toggle="icheck" data-label="有效" <#if module.validFlag == 'Y'>checked</#if>>
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="validFlag" value="N" data-toggle="icheck" data-label="无效" <#if module.validFlag == 'N'>checked</#if>>           
+         </div>
+                <label class="row-label" >锁定标识</label>
+         <div class="row-input">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="lockFlag" value="Y" data-toggle="icheck" data-label="锁定" <#if module.lockFlag == 'Y'>checked</#if>>
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="lockFlag" value="N" data-toggle="icheck" data-label="未锁定" <#if module.lockFlag == 'N'>checked</#if>>           
+         </div>
+         <br>
+                <label class="row-label" >用户类型</label>
+         <div class="row-input">
+            &nbsp;&nbsp;&nbsp;&nbsp;<#if module.userType == 1>管理员<#elseif module.userType == 2>会员</#if>
+         </div>         
+                <label class="row-label" >创建日期</label>
+         <div class="row-input ">
+             &nbsp;&nbsp;&nbsp;&nbsp; <#if module.createDate??>${module.createDate?string('yyyy/MM/dd')}</#if>
+         </div>
+                    <label class="row-label" >创建店铺</label>
+         <div class="row-input ">
+             &nbsp;&nbsp;&nbsp;&nbsp; ${module.createStore?default('--')}
+         </div>
+                <label class="row-label" >归属店铺</label>
+         <div class="row-input ">
+             &nbsp;&nbsp;&nbsp;&nbsp; ${module.belongStore?default('--')}
+         </div>
+                <label class="row-label" >会员卡号</label>
+         <div class="row-input ">
+             &nbsp;&nbsp;&nbsp;&nbsp; ${module.cardNo?default('--')}
+         </div>
+                <label class="row-label" >会员等级</label>
+         <div class="row-input ">
+            &nbsp;&nbsp;&nbsp;&nbsp; ${module.memberLevel?default('--')}
+         </div>
+                <label class="row-label" >渠道一级</label>
+         <div class="row-input ">
+            &nbsp;&nbsp;&nbsp;&nbsp; ${module.firstClassify?default('--')}
+         </div>
+                <label class="row-label" >渠道二级</label>
+         <div class="row-input ">
+            &nbsp;&nbsp;&nbsp;&nbsp; ${module.secondClassify?default('--')}
+         </div>
+                <label class="row-label" >渠道三级</label>
+         <div class="row-input ">
+            &nbsp;&nbsp;&nbsp;&nbsp; ${module.thirdClassify?default('--')}
+         </div>
+                <label class="row-label" >最近一次消费</label>
+         <div class="row-input ">
+            &nbsp;&nbsp;&nbsp;&nbsp;<#if module.lastBuyDate??>${module.lastBuyDate?date}<#else>--</#if>
+         </div>
+                 <label class="row-label" >微信公众号</label>
+         <div class="row-input ">
+            &nbsp;&nbsp;&nbsp;&nbsp; ${module.publicNo?default('--')}
+         </div>
+                <label class="row-label" >微信</label>
+         <div class="row-input ">
+            &nbsp;&nbsp;&nbsp;&nbsp; ${module.openId?default('--')}
+         </div>
+                <label class="row-label" >是否关注</label>
+         <div class="row-input">
+           &nbsp;&nbsp;&nbsp;&nbsp; <#if module.isSub??&&module.isSub == 'Y'>已关注<#elseif module.isSub??&&module.isSub == 'N'>未关注</#if>
+         </div>
+    </div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

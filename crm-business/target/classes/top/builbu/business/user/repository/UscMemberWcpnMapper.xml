@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.user.repository.UscMemberWcpnMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.user.entity.UscMemberWcpn">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="member_id" jdbcType="BIGINT" property="memberId" />
+     <result column="public_no" jdbcType="VARCHAR" property="publicNo" />
+     <result column="open_id" jdbcType="VARCHAR" property="openId" />
+     <result column="is_sub" jdbcType="CHAR" property="isSub" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.user.dto.UscMemberWcpnDTO">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="member_id" jdbcType="BIGINT" property="memberId" />
+     <result column="public_no" jdbcType="VARCHAR" property="publicNo" />
+     <result column="open_id" jdbcType="VARCHAR" property="openId" />
+     <result column="is_sub" jdbcType="CHAR" property="isSub" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     row_id,member_id,public_no,open_id,is_sub,remark,
+     ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from usc_member_wcpn where 1=1
+      <if test="dto.rowId != null">
+      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.memberId != null">
+      and  member_id = #{dto.memberId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.publicNo != null">
+      and  public_no = #{dto.publicNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.openId != null">
+      and  open_id = #{dto.openId,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.isSub != null">
+      and  is_sub = #{dto.isSub,jdbcType=CHAR}
+      </if>
+      <if test="dto.remark != null">
+      and  remark = #{dto.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by row_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from usc_member_wcpn    
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from usc_member_wcpn
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.user.entity.UscMemberWcpn">
+   <selectKey keyProperty="rowId" resultType="java.lang.Long"
+			order="BEFORE" statementType="PREPARED">
+			select uuid_short()
+	</selectKey>
+    insert into usc_member_wcpn (
+	    row_id,member_id,public_no,open_id,is_sub,remark
+      )
+    values (
+         #{rowId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{publicNo,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{isSub,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}
+         
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.user.entity.UscMemberWcpn">
+    update usc_member_wcpn
+    <set>
+      <if test="rowId != null">
+        row_id = #{rowId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="publicNo != null">
+        public_no = #{publicNo,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSub != null">
+        is_sub = #{isSub,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where row_id = #{rowId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete from usc_member_wcpn where row_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from usc_member_wcpn where 1=1
+	      <if test="dto.rowId != null">
+	      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.memberId != null">
+	      and  member_id = #{dto.memberId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.publicNo != null">
+	      and  public_no = #{dto.publicNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.openId != null">
+	      and  open_id = #{dto.openId,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.isSub != null">
+	      and  is_sub = #{dto.isSub,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.remark != null">
+	      and  remark = #{dto.remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+</mapper>

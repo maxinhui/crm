@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.system.repository.SmUserOrgMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.system.entity.SmUserOrg">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="org_type" jdbcType="VARCHAR" property="orgType" />
+     <result column="org_no" jdbcType="VARCHAR" property="orgNo" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.system.dto.SmUserOrgDTO">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="org_type" jdbcType="VARCHAR" property="orgType" />
+     <result column="org_no" jdbcType="VARCHAR" property="orgNo" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     row_id,user_id,org_type,org_no,valid_flag,ts,
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from sm_user_org where 1=1
+      <if test="dto.rowId != null">
+      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.userId != null">
+      and  user_id = #{dto.userId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.orgType != null">
+      and  org_type = #{dto.orgType,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.orgNo != null">
+      and  org_no = #{dto.orgNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by row_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sm_user_org    
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sm_user_org
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.system.entity.SmUserOrg">
+    insert into sm_user_org (
+	    row_id,user_id,org_type,org_no,valid_flag,ts,
+      )
+    values (
+         #{rowId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orgType,jdbcType=VARCHAR}, #{orgNo,jdbcType=VARCHAR}, #{validFlag,jdbcType=CHAR}, #{ts,jdbcType=TIMESTAMP},
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.system.entity.SmUserOrg">
+    update sm_user_org
+    <set>
+      <if test="rowId != null">
+        row_id = #{rowId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="orgType != null">
+        org_type = #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgNo != null">
+        org_no = #{orgNo,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null">
+        valid_flag = #{validFlag,jdbcType=CHAR},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where row_id = #{rowId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete from sm_user_org where row_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from sm_user_org where 1=1
+	      <if test="dto.rowId != null">
+	      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.userId != null">
+	      and  user_id = #{dto.userId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.orgType != null">
+	      and  org_type = #{dto.orgType,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.orgNo != null">
+	      and  org_no = #{dto.orgNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+</mapper>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<style type="text/css">
+* {
+	height: 100%;
+	//
+	设置高度，不然会显示不出来
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=WGokxcGXWPEFc0F8G7tfS7eB"></script>
+<script type="text/javascript"
+	src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+<script>
+$(function(){
+navigator.geolocation.getCurrentPosition(translatePoint); //定位
+});
+function translatePoint(position){
+
+var currentLat = position.coords.latitude;
+var currentLon = position.coords.longitude;
+var gpsPoint = new BMap.Point(currentLon, currentLat);
+alert(JSON.stringify(gpsPoint))
+BMap.Convertor.translate(gpsPoint, 0, initMap); //转换坐标
+}
+function initMap(point){
+//初始化地图
+
+alert(JSON.stringify(point))
+}
+</script>
+</head>
+<body>
+	<div id="map"></div>
+</body>
+</html>

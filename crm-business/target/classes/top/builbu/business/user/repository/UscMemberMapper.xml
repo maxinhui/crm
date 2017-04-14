@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.user.repository.UscMemberMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.user.entity.UscMember">
+     <id column="member_id" jdbcType="BIGINT" property="memberId" />
+     <result column="create_store" jdbcType="VARCHAR" property="createStore" />
+     <result column="belong_store" jdbcType="VARCHAR" property="belongStore" />
+     <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+     <result column="member_level" jdbcType="BIGINT" property="memberLevel" />
+     <result column="member_image" jdbcType="VARCHAR" property="memberImage" />
+     <result column="first_classify" jdbcType="VARCHAR" property="firstClassify" />
+     <result column="second_classify" jdbcType="VARCHAR" property="secondClassify" />
+     <result column="third_classify" jdbcType="VARCHAR" property="thirdClassify" />
+     <result column="last_buy_date" jdbcType="DATE" property="lastBuyDate" />
+     <result column="create_date" jdbcType="DATE" property="createDate" />
+     <result column="member_status" jdbcType="TINYINT" property="memberStatus" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.user.dto.UscMemberDTO">
+     <id column="member_id" jdbcType="BIGINT" property="memberId" />
+     <result column="create_store" jdbcType="VARCHAR" property="createStore" />
+     <result column="belong_store" jdbcType="VARCHAR" property="belongStore" />
+     <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+     <result column="member_level" jdbcType="BIGINT" property="memberLevel" />
+     <result column="member_image" jdbcType="VARCHAR" property="memberImage" />
+     <result column="first_classify" jdbcType="VARCHAR" property="firstClassify" />
+     <result column="second_classify" jdbcType="VARCHAR" property="secondClassify" />
+     <result column="third_classify" jdbcType="VARCHAR" property="thirdClassify" />
+     <result column="last_buy_date" jdbcType="DATE" property="lastBuyDate" />
+     <result column="create_date" jdbcType="DATE" property="createDate" />
+     <result column="member_status" jdbcType="TINYINT" property="memberStatus" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     member_id,create_store,belong_store,card_no,member_level,member_image,
+     first_classify,second_classify,third_classify,last_buy_date,create_date,member_status,
+     ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from usc_member where 1=1
+      <if test="dto.memberId != null">
+      and  member_id = #{dto.memberId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.createStore != null">
+      and  create_store = #{dto.createStore,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.belongStore != null">
+      and  belong_store = #{dto.belongStore,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.cardNo != null">
+      and  card_no = #{dto.cardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.memberLevel != null">
+      and  member_level = #{dto.memberLevel,jdbcType=BIGINT}
+      </if>
+      <if test="dto.memberImage != null">
+      and  member_image = #{dto.memberImage,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.firstClassify != null">
+      and  first_classify = #{dto.firstClassify,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.secondClassify != null">
+      and  second_classify = #{dto.secondClassify,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.thirdClassify != null">
+      and  third_classify = #{dto.thirdClassify,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.lastBuyDate != null">
+      and  last_buy_date = #{dto.lastBuyDate,jdbcType=DATE}
+      </if>
+      <if test="dto.createDate != null">
+      and  create_date = #{dto.createDate,jdbcType=DATE}
+      </if>
+      <if test="dto.memberStatus != null">
+      and  member_status = #{dto.memberStatus,jdbcType=TINYINT}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by ts desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.math.BigInteger" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from usc_member    
+    where member_id = #{memberId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigInteger">
+    delete from usc_member
+    where member_id = #{memberId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.user.entity.UscMember">
+
+    insert into usc_member (
+	    member_id,create_store,belong_store,card_no,member_image,
+	    first_classify,second_classify,third_classify,last_buy_date,create_date
+	    
+      )
+    values (
+         #{memberId,jdbcType=BIGINT}, #{createStore,jdbcType=VARCHAR}, #{belongStore,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR},  #{memberImage,jdbcType=VARCHAR},
+         #{firstClassify,jdbcType=VARCHAR}, #{secondClassify,jdbcType=VARCHAR}, #{thirdClassify,jdbcType=VARCHAR}, #{lastBuyDate,jdbcType=DATE}, #{createDate,jdbcType=DATE}
+         
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.user.entity.UscMember">
+    update usc_member
+    <set>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="createStore != null">
+        create_store = #{createStore,jdbcType=VARCHAR},
+      </if>
+      <if test="belongStore != null">
+        belong_store = #{belongStore,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberLevel != null">
+        member_level = #{memberLevel,jdbcType=BIGINT},
+      </if>
+      <if test="memberImage != null">
+        member_image = #{memberImage,jdbcType=VARCHAR},
+      </if>
+      <if test="firstClassify != null">
+        first_classify = #{firstClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="secondClassify != null">
+        second_classify = #{secondClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdClassify != null">
+        third_classify = #{thirdClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="lastBuyDate != null">
+        last_buy_date = #{lastBuyDate,jdbcType=DATE},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="memberStatus != null">
+        member_status = #{memberStatus,jdbcType=TINYINT},
+      </if>
+      <if test="ts != null">
+        ts = #{ts,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  
+    where member_id = #{memberId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.math.BigInteger">
+      delete from usc_member where member_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from usc_member where 1=1
+	      <if test="dto.memberId != null">
+	      and  member_id = #{dto.memberId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.createStore != null">
+	      and  create_store = #{dto.createStore,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.belongStore != null">
+	      and  belong_store = #{dto.belongStore,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.cardNo != null">
+	      and  card_no = #{dto.cardNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.memberLevel != null">
+	      and  member_level = #{dto.memberLevel,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.memberImage != null">
+	      and  member_image = #{dto.memberImage,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.firstClassify != null">
+	      and  first_classify = #{dto.firstClassify,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.secondClassify != null">
+	      and  second_classify = #{dto.secondClassify,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.thirdClassify != null">
+	      and  third_classify = #{dto.thirdClassify,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.lastBuyDate != null">
+	      and  last_buy_date = #{dto.lastBuyDate,jdbcType=DATE}
+	      </if>
+	      <if test="dto.createDate != null">
+	      and  create_date = #{dto.createDate,jdbcType=DATE}
+	      </if>
+	      <if test="dto.memberStatus != null">
+	      and  member_status = #{dto.memberStatus,jdbcType=TINYINT}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+</mapper>

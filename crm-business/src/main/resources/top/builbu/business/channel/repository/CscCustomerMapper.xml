@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.channel.repository.CscCustomerMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.channel.entity.CscCustomer">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+     <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+     <result column="customer_full_name" jdbcType="CHAR" property="customerFullName" />
+     <result column="corp_no" jdbcType="VARCHAR" property="corpNo" />
+     <result column="customer_address" jdbcType="VARCHAR" property="customerAddress" />
+     <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+     <result column="contact_number" jdbcType="VARCHAR" property="contactNumber" />
+     <result column="is_pos_store" jdbcType="CHAR" property="isPosStore" />
+     <result column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.channel.dto.CscCustomerDTO">
+     <id column="row_id" jdbcType="BIGINT" property="rowId" />
+     <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+     <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+     <result column="customer_full_name" jdbcType="CHAR" property="customerFullName" />
+     <result column="corp_no" jdbcType="VARCHAR" property="corpNo" />
+     <result column="customer_address" jdbcType="VARCHAR" property="customerAddress" />
+     <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+     <result column="contact_number" jdbcType="VARCHAR" property="contactNumber" />
+     <result column="is_pos_store" jdbcType="CHAR" property="isPosStore" />
+     <result column="user_id" jdbcType="BIGINT" property="userId" />
+     <result column="valid_flag" jdbcType="CHAR" property="validFlag" />
+     <result column="ts" jdbcType="TIMESTAMP" property="ts" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     row_id,customer_no,customer_name,customer_full_name,corp_no,customer_address,
+     contacts,contact_number,is_pos_store,user_id,valid_flag,ts
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from csc_customer where 1=1
+      <if test="dto.rowId != null">
+      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.customerNo != null">
+      and  customer_no = #{dto.customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.customerName != null">
+      and  customer_name = #{dto.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.customerFullName != null">
+      and  customer_full_name = #{dto.customerFullName,jdbcType=CHAR}
+      </if>
+      <if test="dto.corpNo != null">
+      and  corp_no = #{dto.corpNo,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.customerAddress != null">
+      and  customer_address = #{dto.customerAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.contacts != null">
+      and  contacts = #{dto.contacts,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.contactNumber != null">
+      and  contact_number = #{dto.contactNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.isPosStore != null">
+      and  is_pos_store = #{dto.isPosStore,jdbcType=CHAR}
+      </if>
+      <if test="dto.userId != null">
+      and  user_id = #{dto.userId,jdbcType=BIGINT}
+      </if>
+      <if test="dto.validFlag != null">
+      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+      </if>
+      <if test="dto.ts != null">
+      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+      </if>
+     order by row_id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from csc_customer    
+    where row_id = #{rowId,jdbcType=BIGINT}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete cc,sus,uc,cs,susb,sur from csc_customer cc LEFT JOIN sm_user_store sus ON cc.customer_no = sus.store_no
+    LEFT JOIN csc_store cs ON cs.customer_no = cc.customer_no LEFT JOIN sm_user_store susb ON cs.store_no = susb.store_no
+    LEFT JOIN usc_clerk uc ON uc.belong_store = cs.store_no LEFT JOIN sm_user_role sur ON cc.user_id = sur.user_id
+    where cc.row_id = #{rowId,jdbcType=BIGINT}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.channel.entity.CscCustomer">
+   <selectKey keyProperty="rowId" resultType="java.lang.Long"
+			order="BEFORE" statementType="PREPARED">
+			select uuid_short()
+	</selectKey>
+    insert into csc_customer (
+	    row_id,customer_no,customer_name,customer_full_name,corp_no,customer_address,
+	    contacts,contact_number,is_pos_store,user_id
+      )
+    values (
+         #{rowId,jdbcType=BIGINT}, #{customerNo,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, #{customerFullName,jdbcType=CHAR}, #{corpNo,jdbcType=VARCHAR}, #{customerAddress,jdbcType=VARCHAR},
+         #{contacts,jdbcType=VARCHAR}, #{contactNumber,jdbcType=VARCHAR}, #{isPosStore,jdbcType=CHAR}, #{userId,jdbcType=BIGINT}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.channel.entity.CscCustomer">
+    update csc_customer cc LEFT JOIN sm_user_store sus ON cc.customer_no = sus.store_no 
+    <set>
+      <if test="rowId != null">
+        cc.row_id = #{rowId,jdbcType=BIGINT},
+      </if>
+      <if test="customerNo != null">
+        cc.customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        cc.customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerFullName != null">
+        cc.customer_full_name = #{customerFullName,jdbcType=CHAR},
+      </if>
+      <if test="corpNo != null">
+        cc.corp_no = #{corpNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerAddress != null">
+        cc.customer_address = #{customerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null">
+        cc.contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNumber != null">
+        cc.contact_number = #{contactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isPosStore != null">
+        cc.is_pos_store = #{isPosStore,jdbcType=CHAR},
+      </if>
+      <if test="userId != null">
+        cc.user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="validFlag != null">
+        cc.valid_flag = #{validFlag,jdbcType=CHAR},sus.valid_flag = #{validFlag,jdbcType=CHAR}
+      </if>
+    </set>
+  
+    where row_id = #{rowId,jdbcType=BIGINT}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Long">
+      delete cc,sus from csc_customer cc LEFT JOIN sm_user_store sus ON cc.customer_no = sus.store_no where cc.row_id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from csc_customer where 1=1
+	      <if test="dto.rowId != null">
+	      and  row_id = #{dto.rowId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.customerNo != null">
+	      and  customer_no = #{dto.customerNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.customerName != null">
+	      and  customer_name = #{dto.customerName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.customerFullName != null">
+	      and  customer_full_name = #{dto.customerFullName,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.corpNo != null">
+	      and  corp_no = #{dto.corpNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.customerAddress != null">
+	      and  customer_address = #{dto.customerAddress,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.contacts != null">
+	      and  contacts = #{dto.contacts,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.contactNumber != null">
+	      and  contact_number = #{dto.contactNumber,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.isPosStore != null">
+	      and  is_pos_store = #{dto.isPosStore,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.userId != null">
+	      and  user_id = #{dto.userId,jdbcType=BIGINT}
+	      </if>
+	      <if test="dto.validFlag != null">
+	      and  valid_flag = #{dto.validFlag,jdbcType=CHAR}
+	      </if>
+	      <if test="dto.ts != null">
+	      and  ts = #{dto.ts,jdbcType=TIMESTAMP}
+	      </if>
+	</select>
+	
+</mapper>

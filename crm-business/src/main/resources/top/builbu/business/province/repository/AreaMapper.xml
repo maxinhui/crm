@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.builbu.business.province.repository.AreaMapper">
+  <resultMap id="BaseResultMap" type="top.builbu.business.province.entity.Area">
+     <id column="id" jdbcType="INTEGER" property="id" />
+     <result column="areaid" jdbcType="VARCHAR" property="areaid" />
+     <result column="area" jdbcType="VARCHAR" property="area" />
+     <result column="cityid" jdbcType="VARCHAR" property="cityid" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMapDTO" type="top.builbu.business.province.dto.AreaDTO">
+     <id column="id" jdbcType="INTEGER" property="id" />
+     <result column="areaid" jdbcType="VARCHAR" property="areaid" />
+     <result column="area" jdbcType="VARCHAR" property="area" />
+     <result column="cityid" jdbcType="VARCHAR" property="cityid" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     id,areaid,area,cityid
+  </sql>
+<!-- 列表  -->
+  <select id="selectByList"  resultMap="BaseResultMapDTO">
+     select 
+     <include refid="Base_Column_List" />
+     from area where 1=1
+      <if test="dto.id != null">
+      and  id = #{dto.id,jdbcType=INTEGER}
+      </if>
+      <if test="dto.areaid != null">
+      and  areaid = #{dto.areaid,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.area != null">
+      and  area = #{dto.area,jdbcType=VARCHAR}
+      </if>
+      <if test="dto.cityid != null">
+      and  cityid = #{dto.cityid,jdbcType=VARCHAR}
+      </if>
+     order by id desc limit #{offset},#{limit}
+  </select>
+  
+<!-- 主键查询  -->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from area    
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+
+<!-- 主键删除 --> 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from area
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+<!-- 插入  -->
+  <insert id="insert" parameterType="top.builbu.business.province.entity.Area">
+    insert into area (
+	    id,areaid,area,cityid
+      )
+    values (
+         #{id,jdbcType=INTEGER}, #{areaid,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{cityid,jdbcType=VARCHAR}
+      )
+  </insert>
+ 
+<!-- 修改 -->  
+  <update id="updateByPrimaryKey" parameterType="top.builbu.business.province.entity.Area">
+    update area
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="areaid != null">
+        areaid = #{areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="cityid != null">
+        cityid = #{cityid,jdbcType=VARCHAR}
+      </if>
+    </set>
+  
+    where id = #{id,jdbcType=INTEGER}
+   
+  </update>
+<!--   批量删除       -->
+  <delete id="deleteByAll" parameterType="java.lang.Integer">
+      delete from area where id in
+      <foreach item="id" collection="delids" open="(" separator="," close=")">
+          #{id}
+      </foreach>
+  </delete>  
+  
+  <select id="selectByCount" resultType="java.lang.Integer">
+		select count(1)
+		from area where 1=1
+	      <if test="dto.id != null">
+	      and  id = #{dto.id,jdbcType=INTEGER}
+	      </if>
+	      <if test="dto.areaid != null">
+	      and  areaid = #{dto.areaid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.area != null">
+	      and  area = #{dto.area,jdbcType=VARCHAR}
+	      </if>
+	      <if test="dto.cityid != null">
+	      and  cityid = #{dto.cityid,jdbcType=VARCHAR}
+	      </if>
+	</select>
+</mapper>
