@@ -3,6 +3,7 @@ package top.builbu.website.system.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,12 @@ import top.builbu.business.system.dto.SmRoleFuncDTO;
 import top.builbu.business.system.entity.SmRoleFunc;
 import top.builbu.business.system.service.SmMenuService;
 import top.builbu.business.system.service.SmRoleFuncService;
+import top.builbu.business.user.dto.MemberDTO;
 import top.builbu.common.dto.PageDTO;
 import top.builbu.common.dto.ResultDO;
 import top.builbu.common.dto.ResultCode;
 import top.builbu.common.dto.BaseResultCode;
+import top.builbu.common.dto.UserCode;
 import top.builbu.common.util.page.Pagination;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -148,14 +151,19 @@ public class SmRoleFuncController {
     }
     
     @RequestMapping("/selectByRole")
-    public String selectByRole(HttpServletRequest request,SmMenuDTO dto,Long roleId){
+    public String selectByRole(HttpServletRequest request,HttpSession session,SmMenuDTO dto,Long roleId){
     	PageDTO<SmMenuDTO> result = null;
     	PageDTO<SmRoleFuncDTO> resultF = null;
     	try {
+    		MemberDTO memberDTO = (MemberDTO) session.getAttribute(UserCode.LOGINUSER);
+    		if(memberDTO.getUserType() == 3){//用户类型3经销商，添加查询条件是否对其开发
+    			dto.setMenuType(1);
+    		}
     		result = smMenuService.selectByInfo(dto);
     		SmRoleFuncDTO fDTO = new SmRoleFuncDTO();
     		fDTO.setRoleId(roleId);
     		fDTO.setValidFlag("Y");
+    		
     		resultF = smRoleFuncService.selectByInfo(fDTO);
     		request.setAttribute("pageDTO", result);
     		request.setAttribute("pageFTO", resultF);

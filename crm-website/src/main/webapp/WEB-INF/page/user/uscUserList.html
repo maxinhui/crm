@@ -84,7 +84,7 @@
                 <td>
                     <a href="${request.contextPath}/uscUser/selectById?id=${dto.userId}" class="btn btn-green" data-toggle="dialog" data-width="1200" data-height="800" data-id="uscUserEdit" data-reload-warn="本页已有打开的内容，确定将刷新本页内容，是否继续？" data-title="编辑">编辑</a>
 <!--                     <#if dto.userType != 3><a href="${request.contextPath}/uscUser/deleteById?id=${dto.userId}" class="btn btn-red" data-toggle="doajax" data-confirm-msg="确定要删除该行信息吗？" data-callback="del_callback">删</a></#if> -->
-                   <#if dto.userType== 1 || dto.userType == 3> <a href="${request.contextPath}/smUserRole/selectByInfo?userId=${dto.userId}" class="btn btn-green" data-toggle="dialog"  data-width="600"  data-height="400" data-on-load="odd" data-id="roleByUser" data-title="角色编辑">角色编辑</a></#if>                  
+                   <#if dto.userNo = 'admin'> &nbsp; <#elseif dto.userType== 1 || dto.userType == 3><a href="${request.contextPath}/smUserRole/selectByInfo?userId=${dto.userId}" class="btn btn-green" data-toggle="dialog"  data-width="600"  data-height="400" data-on-load="odd" data-id="roleByUser" data-title="角色编辑">角色编辑</a></#if>                  
                 </td>
            </tr>
            </#list> 

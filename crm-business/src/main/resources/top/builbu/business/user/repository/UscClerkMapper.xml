@@ -141,7 +141,7 @@
 	<!-- 修改门店也店员的关系 -->  
   <update id="updateByStore" parameterType="java.lang.String">
     update usc_clerk uc LEFT JOIN usc_user uu ON uc.clerk_id = uu.user_id
-     set uu.user_type = '2'  
+     set uu.user_type = '2' and uu.valid_flag = 'N' and uu.lock_flag = 'Y' and uu.remark = '停止合作关系'
     where  uc.belong_store = #{belongStore,jdbcType=VARCHAR}
    
   </update>

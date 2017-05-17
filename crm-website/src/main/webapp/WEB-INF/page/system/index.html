@@ -188,7 +188,7 @@ function MainMenuClick(event, treeId, treeNode) {
 </script>
 
 </head>
-<body>
+<body style="yellow">
     <!--[if lte IE 7]>
         <div id="errorie"><div>您还在使用老掉牙的IE，正常使用系统前请升级您的浏览器到 IE8以上版本 <a target="_blank" href="http://windows.microsoft.com/zh-cn/internet-explorer/ie-8-worldwide-languages">点击升级</a>&nbsp;&nbsp;强烈建议您更改换浏览器：<a href="http://down.tech.sina.com.cn/content/40975.html" target="_blank">谷歌 Chrome</a></div></div>
     <![endif]-->
@@ -212,7 +212,7 @@ function MainMenuClick(event, treeId, treeNode) {
                         <li><a href="login.html" class="red">&nbsp;<span class="glyphicon glyphicon-off"></span> 注销登陆</a></li>
                     </ul>
                 </li>
-<!--                 <li><a href="index.html" title="切换为列表导航(窄版)" style="background-color:#ff7b61;">列表导航栏(窄版)</a></li> -->
+<!--                 <li><a href="index.html" title="切换为列表导航(窄版)" 栏(窄版)</a></li> -->
                 <li class="dropdown"><a href="#" class="dropdown-toggle theme blue" data-toggle="dropdown" title="切换皮肤"><i class="fa fa-tree"></i></a>
                     <ul class="dropdown-menu" role="menu" id="bjui-themes">
                         <li class="active"><a href="javascript:;" class="theme_default" data-toggle="theme" data-theme="default">&nbsp;<i class="fa fa-tree"></i> 黑白分明&nbsp;&nbsp;</a></li>
@@ -224,16 +224,16 @@ function MainMenuClick(event, treeId, treeNode) {
                 </li>
             </ul>
         </nav>
-        <div id="bjui-hnav">
+        <div id="bjui-hnav" >
             <button type="button" class="btn-default bjui-hnav-more-left" title="导航菜单左移"><i class="fa fa-angle-double-left"></i></button>
            <div id="bjui-hnav-navbar-box">
-                <ul id="bjui-hnav-navbar">
+                <ul id="bjui-hnav-navbar" >
                    <li class="active"><a href="javascript:;" class="hide" data-toggle="slidebar"></a>
-                           <div class="items hide" data-noinit="true">
+                           <div class="items hide" data-noinit="true" >
                            <#if TP??>
                              <#list TP as t>
                                 <#if t.menuLevel == '1'>
-                                  <ul class="menu-items" data-tit="${t.menuName}" data-faicon="list">
+                                  <ul class="menu-items" data-tit="${t.menuName}" data-faicon="list" >
                                     <#list TP as t1>
                                       <#if t1.menuLevel == '2' && t1.parentMenuId == t.menuId>
                                        <#if t1.pageUrl == '/smRoleFunc/selectByInfo'>

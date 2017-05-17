@@ -84,7 +84,7 @@ public class CscCustomerServiceImpl implements CscCustomerService{
     	MemberDTO me = new MemberDTO();
     	me.setMobileNo(dto.getContactNumber());
     	me.setUserName(dto.getContacts());  	
-    	me.setCreateStore(dto.getCustomerNo());
+    	me.setCreateStore("admin");
     	me.setBelongStore(dto.getCustomerNo());
     	me.setUserType(UserType.customerType);
     	me.setPassword(SHA1.Encrypt(dto.getCustomerNo()+Password.psw, ""));
@@ -148,6 +148,9 @@ public class CscCustomerServiceImpl implements CscCustomerService{
     	UscUserDTO userDTO = new UscUserDTO();
     	userDTO.setUserId(customer.getUserId());
     	userDTO.setUserType(UserType.memberType);
+    	userDTO.setLockFlag("Y");
+    	userDTO.setValidFlag("N");
+    	userDTO.setRemark("经销商取消合作");
     	result = uscUserService.update(userDTO);//修改
     	if(result.isSuccess()){
     		CscStoreDTO storeDTO = new CscStoreDTO();
